@@ -1,53 +1,18 @@
-<p align="center">
-  <a href="#">
-    <img alt="Ionic" src="https://github.com/ionic-team/ionic-angular-standalone-codemods/blob/main/.github/assets/logo.png?raw=true" width="60" />
-  </a>
-</p>
-
-<h1 align="center">
-  Ionic Angular Standalone Codemods
+<h1>
+  Ionic Angular Collect Icons
 </h1>
 
-<p align="center">
-Code mods to migrate an Ionic Angular application to use the new standalone components in Ionic Framework v7.5.0.
+<p>
+Code mods to collect using ion-icons at project, and generate export file. This project is based [ionic-team/ionic-angular-standalone-codemods](https://github.com/ionic-team/ionic-angular-standalone-codemods) .
 </p>
-
-<p align="center">
-  <a href="https://github.com/ionic-team/ionic-angular-standalone-codemods/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Ionic Angular Standalone Codemods is released under the MIT license." />
-  </a>
-  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
-  <a href="https://twitter.com/Ionicframework">
-    <img src="https://img.shields.io/twitter/follow/ionicframework.svg?label=Follow%20@IonicFramework" alt="Follow @IonicFramework">
-  </a>
-  <a href="https://ionic.link/discord">
-    <img src="https://img.shields.io/discord/520266681499779082?color=7289DA&label=%23ionic&logo=discord&logoColor=white" alt="Official Ionic Discord" />
-  </a>
-</p>
-
-<h2 align="center">
-  <a href="https://blog.ionicframework.com/">Blog</a>
-  <br />
-  Community:
-  <a href="https://ionic.link/discord">Discord</a>
-  <span> · </span>
-  <a href="https://forum.ionicframework.com/">Forums</a>
-  <span> · </span>
-  <a href="https://twitter.com/Ionicframework">Twitter</a>
-</h2>
 
 > [!WARNING]
 > This project is experimental. Review all changes before committing them to your project.
 
-If you run into any issues while using this project, please open an issue on this repository. If you are unable to provide a reproduction project, please provide relevant code snippets to help us reproduce the issue.
-
 ## Usage
 
 ```bash
-npx @ionic/angular-standalone-codemods
-# Follow the prompts
-# - Dry run or not
-# - Path to your Angular project (defaults to current directory)
+npx @rdlabo/ionic-angular-collect-icons
 ```
 
 ## Developing
