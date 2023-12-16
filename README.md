@@ -28,14 +28,14 @@ This will overwrite `use-icons.ts` if it exists, or automatically generate `src/
 ```diff
 + import * as useIcons from '../use-icons';
 + import { addIcons } from 'ionicons';
-+ import * as Icons from 'ionicons/icons';
++ import * as allIcons from 'ionicons/icons';
 
   if (environment.production) {
     enableProdMode();
 +   addIcons(useIcons);
 - }
 + } else {
-+   addIcons(Icons);
++   addIcons(allIcons);
 + }
 ```
 
