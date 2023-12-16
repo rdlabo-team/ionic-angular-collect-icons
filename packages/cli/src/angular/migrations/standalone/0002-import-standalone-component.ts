@@ -13,7 +13,7 @@ import {
 } from "../../utils/angular-utils";
 import { IONIC_COMPONENTS } from "../../utils/ionic-utils";
 import {saveFileChanges} from '../../utils/log-utils';
-import {addExportToFile, addImportToClass} from '../../utils/typescript-utils';
+import {addExportToFile} from '../../utils/typescript-utils';
 import {kebabCaseToCamelCase} from '../../utils/string-utils';
 
 export const migrateComponents = async (
@@ -22,8 +22,6 @@ export const migrateComponents = async (
 ) => {
   let skippedIconsHtmlAll: string[] = [];
   let ionicComponentsAll: string[] = [];
-
-  const useIconFile = project.getSourceFile("use-icons.ts");
 
   for (const sourceFile of project.getSourceFiles()) {
     if (sourceFile.getFilePath().endsWith(".html")) {
@@ -56,8 +54,11 @@ export const migrateComponents = async (
   // skippedIconsHtmlAll = Array.from(new Set(skippedIconsHtmlAll));
   ionicComponentsAll = Array.from(new Set(ionicComponentsAll));
 
+  let useIconFile = project.getSourceFile("use-icons.ts");
   if (!useIconFile) {
-    throw `Could not find use-icons.ts file.`;
+    useIconFile = project.createSourceFile("src/use-icons.ts", ``, {
+      overwrite: true,
+    });
   }
 
   if (useIconFile && ionicComponentsAll.length > 0) {

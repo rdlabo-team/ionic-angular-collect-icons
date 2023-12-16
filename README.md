@@ -9,6 +9,8 @@ Code mods to collect using ion-icons at project, and generate export file. This 
 > [!WARNING]
 > This project is experimental. Review all changes before committing them to your project.
 
+## Initialize
+
 ## Usage
 
 ```bash
