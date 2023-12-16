@@ -41,6 +41,13 @@ This will overwrite `use-icons.ts` if it exists, or automatically generate `src/
 + }
 ```
 
+- Can run addIcons in main.ts?
+
+Yes. Please check this issue: https://github.com/ionic-team/ionic-framework/issues/28445#issuecomment-1789028722
+
+> You're more than welcome to register them in main.ts or app.component.ts. You can then use them anywhere in your application. However, the initial bundle size may increase because the icons need to be loaded up front.
+
+
 3. Add npm script for generate `use-icons.ts` file at every build:
 
 ```diff
