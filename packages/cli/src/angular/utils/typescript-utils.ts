@@ -91,3 +91,40 @@ export function removeImportFromClass(
     removeImport(sourceFile, importName, moduleSpecifier);
   }
 }
+
+export function addExportToFile(
+  sourceFile: SourceFile,
+  importName: string | string[],
+  moduleSpecifier: string,
+) {
+  const addExport = (
+    sourceFile: SourceFile,
+    importName: string,
+    moduleSpecifier: string,
+  ) => {
+    let exportDeclaration = sourceFile.getExportDeclaration(moduleSpecifier);
+
+    if (!exportDeclaration) {
+      // Create the import declaration if it does not exist.
+      exportDeclaration = sourceFile.addExportDeclaration({
+        moduleSpecifier,
+      });
+    }
+
+    const importSpecifier = exportDeclaration
+      .getNamedExports()
+      .find((n) => n.getName() === importName);
+
+    if (!importSpecifier) {
+      exportDeclaration.addNamedExport(importName);
+    }
+  };
+
+  if (Array.isArray(importName)) {
+    importName.forEach((name) => {
+      addExport(sourceFile, name, moduleSpecifier);
+    });
+  } else {
+    addExport(sourceFile, importName, moduleSpecifier);
+  }
+}

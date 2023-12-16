@@ -4,37 +4,27 @@ import { CliOptions } from "../../../types/cli-options";
 // @ts-ignore
 import { parse } from "@angular-eslint/template-parser";
 import {
-  deleteFromDecoratorArgArray,
   getDecoratorArgument,
 } from "../../utils/decorator-utils";
 
-import { log } from "@clack/prompts";
 import {
-  addImportToComponentDecorator,
-  addImportToNgModuleDecorator,
-  findComponentTypescriptFileForTemplateFile,
-  findNgModuleClassForComponent,
   getAngularComponentDecorator,
   isAngularComponentClass,
-  isAngularComponentStandalone,
-  removeImportFromComponentDecorator,
 } from "../../utils/angular-utils";
 import { IONIC_COMPONENTS } from "../../utils/ionic-utils";
-import {
-  kebabCaseToCamelCase,
-  kebabCaseToPascalCase,
-} from "../../utils/string-utils";
-import {
-  addImportToClass,
-  getOrCreateConstructor,
-  removeImportFromClass,
-} from "../../utils/typescript-utils";
-import { saveFileChanges } from "../../utils/log-utils";
+import {saveFileChanges} from '../../utils/log-utils';
+import {addExportToFile, addImportToClass} from '../../utils/typescript-utils';
+import {kebabCaseToCamelCase} from '../../utils/string-utils';
 
 export const migrateComponents = async (
   project: Project,
   cliOptions: CliOptions,
 ) => {
+  let skippedIconsHtmlAll: string[] = [];
+  let ionicComponentsAll: string[] = [];
+
+  const useIconFile = project.getSourceFile("use-icons.ts");
+
   for (const sourceFile of project.getSourceFiles()) {
     if (sourceFile.getFilePath().endsWith(".html")) {
       const htmlAsString = sourceFile.getFullText();
@@ -42,196 +32,43 @@ export const migrateComponents = async (
       const {
         skippedIconsHtml,
         ionIcons,
-        ionicComponents,
-        hasRouterLink,
-        hasRouterLinkWithHref,
       } = detectIonicComponentsAndIcons(htmlAsString, sourceFile.getFilePath());
+      skippedIconsHtmlAll = skippedIconsHtmlAll.concat(skippedIconsHtml);
+      ionicComponentsAll = ionicComponentsAll.concat(ionIcons);
 
-      if (ionicComponents.length > 0 || ionIcons.length > 0) {
-        const tsSourceFile =
-          findComponentTypescriptFileForTemplateFile(sourceFile);
-
-        if (tsSourceFile) {
-          await migrateAngularComponentClass(
-            tsSourceFile,
-            ionicComponents,
-            ionIcons,
-            skippedIconsHtml,
-            hasRouterLink,
-            hasRouterLinkWithHref,
-            cliOptions,
-          );
-
-          await saveFileChanges(tsSourceFile, cliOptions);
-        }
-      }
     } else if (sourceFile.getFilePath().endsWith(".ts")) {
       const templateAsString = getComponentTemplateAsString(sourceFile);
       if (templateAsString) {
         const {
           skippedIconsHtml,
           ionIcons,
-          ionicComponents,
-          hasRouterLink,
-          hasRouterLinkWithHref,
         } = detectIonicComponentsAndIcons(
           templateAsString,
           sourceFile.getFilePath(),
         );
+        skippedIconsHtmlAll = skippedIconsHtmlAll.concat(skippedIconsHtml);
+        ionicComponentsAll = ionicComponentsAll.concat(ionIcons);
 
-        await migrateAngularComponentClass(
-          sourceFile,
-          ionicComponents,
-          ionIcons,
-          skippedIconsHtml,
-          hasRouterLink,
-          hasRouterLinkWithHref,
-          cliOptions,
-        );
-
-        if (ionicComponents.length > 0 || ionIcons.length > 0) {
-          await saveFileChanges(sourceFile, cliOptions);
-        }
       }
     }
   }
-};
 
-async function migrateAngularComponentClass(
-  sourceFile: SourceFile,
-  ionicComponents: string[],
-  ionIcons: string[],
-  skippedIconsHtml: string[],
-  hasRouterLink: boolean,
-  hasRouterLinkWithHref: boolean,
-  cliOptions: CliOptions,
-) {
-  let ngModuleSourceFile: SourceFile | undefined;
-  let modifiedNgModule = false;
+  // skippedIconsHtmlAll = Array.from(new Set(skippedIconsHtmlAll));
+  ionicComponentsAll = Array.from(new Set(ionicComponentsAll));
 
-  if (!isAngularComponentStandalone(sourceFile)) {
-    ngModuleSourceFile = findNgModuleClassForComponent(sourceFile);
+  if (!useIconFile) {
+    throw `Could not find use-icons.ts file.`;
   }
 
-  const hasIcons = ionIcons.length > 0;
-
-  if (hasIcons) {
-    addImportToClass(sourceFile, "addIcons", "ionicons");
-
-    for (const ionIcon of ionIcons) {
+  if (useIconFile && ionicComponentsAll.length > 0) {
+    for (const ionIcon of ionicComponentsAll) {
       const iconName = kebabCaseToCamelCase(ionIcon);
-      addImportToClass(sourceFile, iconName, "ionicons/icons");
+      addExportToFile(useIconFile, iconName, "ionicons/icons");
     }
 
-    insertAddIconsIntoConstructor(
-      sourceFile,
-      ionIcons.map((i) => kebabCaseToCamelCase(i)),
-    );
+    await saveFileChanges(useIconFile, cliOptions);
   }
-
-  if (hasRouterLink) {
-    addImportToClass(sourceFile, "IonRouterLink", "@ionic/angular/standalone");
-    addImportToComponentDecorator(sourceFile, "IonRouterLink");
-  }
-
-  if (hasRouterLinkWithHref) {
-    addImportToClass(
-      sourceFile,
-      "IonRouterLinkWithHref",
-      "@ionic/angular/standalone",
-    );
-    addImportToComponentDecorator(sourceFile, "IonRouterLinkWithHref");
-  }
-
-  for (const ionicComponent of ionicComponents) {
-    if (isAngularComponentStandalone(sourceFile)) {
-      const componentClassName = kebabCaseToPascalCase(ionicComponent);
-      addImportToComponentDecorator(sourceFile, componentClassName);
-      removeImportFromComponentDecorator(sourceFile, "IonicModule");
-      removeImportFromClass(sourceFile, "IonicModule", "@ionic/angular");
-      addImportToClass(
-        sourceFile,
-        componentClassName,
-        "@ionic/angular/standalone",
-      );
-      /**
-       * This removes the import from the class, if it is present.
-       * An example where it may exist is when the developer has
-       * a @ViewChild decorator that references an ionic component.
-       */
-      removeImportFromClass(sourceFile, componentClassName, "@ionic/angular");
-    } else if (ngModuleSourceFile) {
-      const componentClassName = kebabCaseToPascalCase(ionicComponent);
-
-      addImportToClass(
-        ngModuleSourceFile,
-        componentClassName,
-        "@ionic/angular/standalone",
-      );
-      addImportToNgModuleDecorator(ngModuleSourceFile, componentClassName);
-
-      removeIonicModuleFromNgModule(ngModuleSourceFile);
-
-      modifiedNgModule = true;
-    }
-  }
-
-  if (skippedIconsHtml.length > 0) {
-    log.warning("--------------------------------------------------");
-    log.warning(
-      `Dynamic ion-icon name detected in component template: ${sourceFile.getFilePath()}`,
-    );
-    log.warning(`Ionic is unable to automatically migrate these icons.`);
-    log.warning(
-      `You will need to manually import these icons into your component:`,
-    );
-
-    for (const skippedIcon of skippedIconsHtml) {
-      log.warning(`\t${skippedIcon}`);
-    }
-
-    log.warning("--------------------------------------------------");
-  }
-
-  if (modifiedNgModule && ngModuleSourceFile) {
-    await saveFileChanges(ngModuleSourceFile, cliOptions);
-  }
-}
-
-function removeIonicModuleFromNgModule(ngModuleSourceFile: SourceFile) {
-  const ionicModuleImportDeclaration =
-    ngModuleSourceFile.getImportDeclaration("@ionic/angular");
-
-  const ionicModuleImportSpecifier = ionicModuleImportDeclaration
-    ?.getNamedImports()
-    .find((n) => n.getName() === "IonicModule");
-
-  if (ionicModuleImportSpecifier) {
-    // Remove the IonicModule import specifier.
-    ionicModuleImportSpecifier.remove();
-  }
-  if (ionicModuleImportDeclaration?.getNamedImports().length === 0) {
-    // Remove the entire import statement if there are no more named imports.
-    ionicModuleImportDeclaration.remove();
-  }
-
-  const ngModuleDecorator = ngModuleSourceFile
-    .getClasses()[0]
-    .getDecorator("NgModule");
-
-  if (ngModuleDecorator) {
-    deleteFromDecoratorArgArray(ngModuleDecorator, "imports", "IonicModule");
-    deleteFromDecoratorArgArray(ngModuleDecorator, "exports", "IonicModule");
-  }
-}
-
-function insertAddIconsIntoConstructor(
-  sourceFile: SourceFile,
-  icons: string[],
-) {
-  const constructor = getOrCreateConstructor(sourceFile);
-  constructor.addStatements(`addIcons({ ${icons.join(", ")} });`);
-}
+};
 
 function detectIonicComponentsAndIcons(htmlAsString: string, filePath: string) {
   const ast = parse(htmlAsString, { filePath });
