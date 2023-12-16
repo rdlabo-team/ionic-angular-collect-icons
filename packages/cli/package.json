@@ -1,6 +1,6 @@
 {
   "name": "@rdlabo/ionic-angular-collect-icons",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "dependencies": {
     "@angular-eslint/template-parser": "^16.1.2",
     "@clack/core": "^0.3.3",
@@ -23,7 +23,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "prepublish": "pnpm run build:prod && pnpm run test"
+    "prepublishOnly": "pnpm run build:prod && pnpm run test"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
