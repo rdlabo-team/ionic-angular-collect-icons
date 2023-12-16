@@ -1,14 +1,9 @@
 import type { Project } from "ts-morph";
 import type { CliOptions } from "../../../types/cli-options";
-import { migrateAppModule } from "./0001-migrate-app-module";
-import { migrateImportStatements } from "./0004-migrate-import-statements";
 import { migrateComponents } from "./0002-import-standalone-component";
-import { migrateBootstrapApplication } from "./0003-migrate-bootstrap-application";
-import { migrateAngularJsonAssets } from "./0005-migrate-angular-json-assets";
 
 import { group, confirm, log, spinner } from "@clack/prompts";
 import { getActualPackageVersion } from "../../utils/package-utils";
-import { migrateAngularAppConfig } from "./0006-migrate-angular-app-config";
 
 interface StandaloneMigrationOptions {
   /**
@@ -42,18 +37,8 @@ export const runStandaloneMigration = async ({
 
   spinner.start(`Migrating project located at: ${dir}`);
 
-  // Migrate projects using an AppModule
-  await migrateAppModule(project, cliOptions);
-  // Migrate standalone projects using bootstrapApplication
-  await migrateBootstrapApplication(project, cliOptions);
   // Migrate components using Ionic components
   await migrateComponents(project, cliOptions);
-  // Migrate import statements to @ionic/angular/standalone
-  await migrateImportStatements(project, cliOptions);
-  // Migrate the assets array in angular.json
-  await migrateAngularJsonAssets(project, cliOptions);
-  // Migrate angular projects with an app config
-  await migrateAngularAppConfig(project, cliOptions);
 
   spinner.stop(`Project migration at ${dir} completed successfully.`);
 
