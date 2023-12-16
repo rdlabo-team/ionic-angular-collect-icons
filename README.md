@@ -1,21 +1,54 @@
-<h1>
-  Ionic Angular Collect Icons
-</h1>
+# Ionic Angular Collect Icons
 
-<p>
-Code mods to collect using ion-icons at project, and generate export file. This project is based [ionic-team/ionic-angular-standalone-codemods](https://github.com/ionic-team/ionic-angular-standalone-codemods) .
-</p>
+## What is this?
+
+This library is used to uniquely group the ionIcons in a project and export them from `use-icons.ts`. In small projects, it is difficult to manage `addIcons()` of ionIcons each time, so we automated it.
+
+- development: Stress-free development by `addIcons()` for all icons.
+- Production: Automatically collect and update the ionIcon used in the template prior to build. 
+
+This project is based [ionic-team/ionic-angular-standalone-codemods](https://github.com/ionic-team/ionic-angular-standalone-codemods) .
+
 
 > [!WARNING]
 > This project is experimental. Review all changes before committing them to your project.
 
-## Initialize
-
 ## Usage
+
+1. Run the CLI
 
 ```bash
 npx @rdlabo/ionic-angular-collect-icons
 ```
+
+This will overwrite `use-icons.ts` if it exists, or automatically generate `src/use-icons.ts` if not. If you wish to place this file in an arbitrary location, move it.
+
+2. Import the generated file in your `main.ts` ( or `app.config.ts` ) file:
+
+```diff
++ import * as useIcons from '../use-icons';
++ import { addIcons } from 'ionicons';
++ import * as Icons from 'ionicons/icons';
+
+  if (environment.production) {
+    enableProdMode();
++   addIcons(useIcons);
+- }
++ } else {
++   addIcons(Icons);
++ }
+```
+
+3. Add npm script for generate `use-icons.ts` file at every build:
+
+```diff
+  "scripts": {
+    "ng": "ng",
+    "start": "ng run serve",
+    "build": "ng build --localize",
++   "prebuild": "npx @rdlabo/ionic-angular-collect-icons --non-interactive false",
+```
+
 
 ## Developing
 
