@@ -7,6 +7,8 @@ This library is used to uniquely group the ionIcons in a project and export them
 - development: Stress-free development by `addIcons()` for all icons.
 - Production: Automatically collect and update the ionIcon used in the template prior to build. 
 
+Of course, to maximize bundle size reduction, it is important to load a minimum number of icons at each Component lazy loading. This is a compromise to speed up development.
+
 This project is based [ionic-team/ionic-angular-standalone-codemods](https://github.com/ionic-team/ionic-angular-standalone-codemods) .
 
 
