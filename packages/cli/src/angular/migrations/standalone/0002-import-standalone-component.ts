@@ -61,6 +61,7 @@ export const migrateComponents = async (
   }
 
   if (useIconFile && ionicComponentsAll.length > 0) {
+    useIconFile.removeText();
     for (const ionIcon of ionicComponentsAll) {
       const iconName = kebabCaseToCamelCase(ionIcon);
       addExportToFile(useIconFile, iconName, "ionicons/icons");
