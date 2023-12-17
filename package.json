@@ -1,19 +1,31 @@
 {
-  "private": true,
+  "name": "@rdlabo/ionic-angular-collect-icons",
+  "version": "0.0.9",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rdlabo-team/ionic-angular-collect-icons.git"
+  },
+  "bugs": {
+    "url": "git@github.com:rdlabo-team/ionic-angular-collect-icons.git/issues"
+  },
+  "private": false,
   "scripts": {
     "build": "turbo run build --no-daemon",
     "dev": "turbo run dev --no-daemon",
     "lint": "turbo run lint --no-daemon",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test --filter='./packages/*' --no-daemon",
-    "test:watch": "turbo run test:watch --filter='./packages/*' --no-daemon"
+    "test:watch": "turbo run test:watch --filter='./packages/*' --no-daemon",
+    "release": "pnpm install && pnpm run test && np --no-cleanup --no-tests --no-publish && node release.mjs"
   },
   "devDependencies": {
+    "child_process": "^1.0.2",
     "eslint": "^8.48.0",
+    "np": "^9.2.0",
+    "path": "^0.12.7",
     "prettier": "^3.0.3",
     "tsconfig": "workspace:*",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.6.10",
-  "name": "ionic-migrate"
+  "packageManager": "pnpm@8.6.10"
 }

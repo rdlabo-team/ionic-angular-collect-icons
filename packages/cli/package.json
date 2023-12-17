@@ -23,7 +23,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "prepublishOnly": "pnpm run build:prod && pnpm run test"
+    "prepublishOnly": "pnpm run build:prod"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
