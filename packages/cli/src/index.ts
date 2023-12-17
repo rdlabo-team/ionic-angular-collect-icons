@@ -17,10 +17,8 @@ import { existsSync } from "node:fs";
 import { cwd } from "node:process";
 import { runStandaloneMigration } from "./angular/migrations/standalone";
 
-const IONIC_MIGRATION_GUIDE_URL =
-  "https://www.ionicframework.com/docs/angular/build-options#migrating-from-modules-to-standalone";
 const IONIC_REPOSITORY_ISSUES_URL =
-  "https://github.com/ionic-team/ionic-angular-standalone-codemods/issues";
+  "https://github.com/rdlabo-team/ionic-angular-collect-icons/issues";
 const isInteractive = (): boolean =>
   TERMINAL_INFO.tty &&
   !TERMINAL_INFO.ci &&
@@ -29,19 +27,14 @@ const isInteractive = (): boolean =>
 async function main() {
   console.clear();
 
-  intro("Ionic Angular Standalone Codemods");
+  intro("@rdlabo/ionic-angular-collect-icons");
   intro(
-    "This utility will migrate your Ionic Angular project to use the new standalone components from Ionic Framework v7.5.0.",
+    "This utility will collect ion-icon from your Ionic Angular project, and generate files to collect and export all icons.",
   );
 
   log.warning("--------------------------------------------------");
   log.warning(
     "⚠️  This utility is experimental. Always review the changes made before committing them to your project. ⚠️",
-  );
-  log.warning(
-    `For manual migration, see the guide at: ${color.underline(
-      IONIC_MIGRATION_GUIDE_URL,
-    )}`,
   );
   log.warning("--------------------------------------------------");
 
