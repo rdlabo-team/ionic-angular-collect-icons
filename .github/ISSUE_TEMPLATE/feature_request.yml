@@ -2,17 +2,6 @@ name: 💡 Feature Request
 description: Suggest an idea for the codemods
 title: "feat: "
 body:
-  - type: checkboxes
-    id: prerequisites
-    attributes:
-      label: Prerequisites
-      description: Please ensure you have completed all of the following.
-      options:
-        - label: I agree to follow the [Code of Conduct](https://ionicframework.com/code-of-conduct).
-          required: true
-        - label: I have searched for [existing issues](https://github.com/ionic-team/ionic-angular-standalone-codemods) that already report this problem, without success.
-          required: true
-
   - type: textarea
     id: description
     attributes:

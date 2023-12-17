@@ -3,25 +3,6 @@ description: Create a report to help us improve the codemods
 title: "bug: "
 
 body:
-  - type: checkboxes
-    id: prerequisites
-    attributes:
-      label: Prerequisites
-      description: Please ensure you have completed all of the following.
-      options:
-        - label: I agree to follow the [Code of Conduct](https://ionicframework.com/code-of-conduct).
-          required: true
-        - label: I have searched for [existing issues](https://github.com/ionic-team/ionic-angular-standalone-codemods) that already report this problem, without success.
-          required: true
-
-  - type: input
-    id: affected-versions
-    attributes:
-      label: Codemod version
-      description: Which version(s) of the codemod does this issue impact?
-    validations:
-      required: true
-
   - type: textarea
     id: current-behavior
     attributes:
