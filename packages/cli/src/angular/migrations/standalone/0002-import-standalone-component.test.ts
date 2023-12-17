@@ -20,15 +20,9 @@ describe("migrateComponents", () => {
         export class MyComponent { }
       `;
 
-      project.createSourceFile(
-        "foo.component.ts",
-        dedent(component),
-      );
+      project.createSourceFile("foo.component.ts", dedent(component));
 
-      const useIconFile = project.createSourceFile(
-        "use-icons.ts",
-        dedent(``),
-      );
+      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
 
       await migrateComponents(project, { dryRun: false });
 
