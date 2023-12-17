@@ -28,17 +28,15 @@ This will overwrite `use-icons.ts` if it exists, or automatically generate `src/
 2. Import the generated file in your `main.ts` ( or `app.config.ts` ) file:
 
 ```diff
-+ import * as useIcons from '../use-icons';
 + import { addIcons } from 'ionicons';
 + import * as allIcons from 'ionicons/icons';
++ import * as useIcons from '../use-icons';
 
   if (environment.production) {
     enableProdMode();
-+   addIcons(useIcons);
-- }
-+ } else {
-+   addIcons(allIcons);
-+ }
+  }
+
++  addIcons(environment.production ? useIcons : allIcons);
 ```
 
 - Can run addIcons in main.ts?
