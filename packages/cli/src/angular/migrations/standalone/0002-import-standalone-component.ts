@@ -3,18 +3,16 @@ import { CliOptions } from "../../../types/cli-options";
 
 // @ts-ignore
 import { parse } from "@angular-eslint/template-parser";
-import {
-  getDecoratorArgument,
-} from "../../utils/decorator-utils";
+import { getDecoratorArgument } from "../../utils/decorator-utils";
 
 import {
   getAngularComponentDecorator,
   isAngularComponentClass,
 } from "../../utils/angular-utils";
 import { IONIC_COMPONENTS } from "../../utils/ionic-utils";
-import {saveFileChanges} from '../../utils/log-utils';
-import {addExportToFile} from '../../utils/typescript-utils';
-import {kebabCaseToCamelCase} from '../../utils/string-utils';
+import { saveFileChanges } from "../../utils/log-utils";
+import { addExportToFile } from "../../utils/typescript-utils";
+import { kebabCaseToCamelCase } from "../../utils/string-utils";
 
 export const migrateComponents = async (
   project: Project,
@@ -27,26 +25,21 @@ export const migrateComponents = async (
     if (sourceFile.getFilePath().endsWith(".html")) {
       const htmlAsString = sourceFile.getFullText();
 
-      const {
-        skippedIconsHtml,
-        ionIcons,
-      } = detectIonicComponentsAndIcons(htmlAsString, sourceFile.getFilePath());
+      const { skippedIconsHtml, ionIcons } = detectIonicComponentsAndIcons(
+        htmlAsString,
+        sourceFile.getFilePath(),
+      );
       skippedIconsHtmlAll = skippedIconsHtmlAll.concat(skippedIconsHtml);
       ionicComponentsAll = ionicComponentsAll.concat(ionIcons);
-
     } else if (sourceFile.getFilePath().endsWith(".ts")) {
       const templateAsString = getComponentTemplateAsString(sourceFile);
       if (templateAsString) {
-        const {
-          skippedIconsHtml,
-          ionIcons,
-        } = detectIonicComponentsAndIcons(
+        const { skippedIconsHtml, ionIcons } = detectIonicComponentsAndIcons(
           templateAsString,
           sourceFile.getFilePath(),
         );
         skippedIconsHtmlAll = skippedIconsHtmlAll.concat(skippedIconsHtml);
         ionicComponentsAll = ionicComponentsAll.concat(ionIcons);
-
       }
     }
   }

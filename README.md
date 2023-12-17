@@ -5,12 +5,11 @@
 This library is used to uniquely group the ionIcons in a project and export them from `use-icons.ts`. In small projects, it is difficult to manage `addIcons()` of ionIcons each time, so we automated it.
 
 - development: Stress-free development by `addIcons()` for all icons.
-- Production: Automatically collect and update the ionIcon used in the template prior to build. 
+- Production: Automatically collect and update the ionIcon used in the template prior to build.
 
 Of course, to maximize bundle size reduction, it is important to load a minimum number of icons at each Component lazy loading. This is a compromise to speed up development.
 
 This project is based [ionic-team/ionic-angular-standalone-codemods](https://github.com/ionic-team/ionic-angular-standalone-codemods) .
-
 
 > [!WARNING]
 > This project is experimental. Review all changes before committing them to your project.
@@ -45,7 +44,6 @@ Yes. Please check this issue: https://github.com/ionic-team/ionic-framework/issu
 
 > You're more than welcome to register them in main.ts or app.component.ts. You can then use them anywhere in your application. However, the initial bundle size may increase because the icons need to be loaded up front.
 
-
 3. Add npm script for generate `use-icons.ts` file at every build:
 
 ```diff
@@ -55,7 +53,6 @@ Yes. Please check this issue: https://github.com/ionic-team/ionic-framework/issu
     "build": "ng build --localize",
 +   "prebuild": "npx @rdlabo/ionic-angular-collect-icons --non-interactive false",
 ```
-
 
 ## Developing
 
