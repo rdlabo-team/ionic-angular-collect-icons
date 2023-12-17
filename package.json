@@ -25,7 +25,8 @@
     "path": "^0.12.7",
     "prettier": "^3.0.3",
     "tsconfig": "workspace:*",
-    "turbo": "latest"
+    "turbo": "latest",
+    "write-pkg": "^7.0.0"
   },
   "packageManager": "pnpm@8.6.10"
 }
