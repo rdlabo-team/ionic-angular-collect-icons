@@ -45,13 +45,13 @@ export const initializeAddIcons = async (
 
   addImportToFile(prodModeSource, "addIcons", "ionicons");
   prodModeSource.addImportDeclaration({
-    defaultImport: '* as addIcons',
+    defaultImport: '* as allIcons',
     moduleSpecifier: 'ionicons/icons'
   });
 
   const path = getRelativePath(prodModeSource.getFilePath(), [cliOptions.projectPath, cliOptions.iconPath].join('/'));
   prodModeSource.addImportDeclaration({
-    defaultImport: '* as usedIcons',
+    defaultImport: '* as useIcons',
     moduleSpecifier: path.replace('.ts', ''),
   });
 
