@@ -1,5 +1,11 @@
 import { CliOptions } from '../../types/cli-options';
 import {kebabCaseToCamelCase, kebabCaseToPascalCase} from './string-utils';
+import * as path from 'path';
+
+export function getRelativePath(importFilePath: string, targetPath: string): string {
+  console.log(importFilePath, targetPath);
+  return path.relative(path.dirname(importFilePath), targetPath);
+}
 
 export function getOptionsFromArgv(argv: string[]): Partial<CliOptions> {
   const options = {}

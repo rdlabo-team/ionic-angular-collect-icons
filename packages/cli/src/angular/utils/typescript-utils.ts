@@ -92,6 +92,43 @@ export function removeImportFromClass(
   }
 }
 
+export function addImportToFile(
+  sourceFile: SourceFile,
+  importName: string | string[],
+  moduleSpecifier: string,
+) {
+  const addImport = (
+    sourceFile: SourceFile,
+    importName: string,
+    moduleSpecifier: string,
+  ) => {
+    let importDeclaration = sourceFile.getImportDeclaration(moduleSpecifier);
+
+    if (!importDeclaration) {
+      // Create the import declaration if it does not exist.
+      importDeclaration = sourceFile.addImportDeclaration({
+        moduleSpecifier,
+      });
+    }
+
+    const importSpecifier = importDeclaration
+      .getNamedImports()
+      .find((n) => n.getName() === importName);
+
+    if (!importSpecifier) {
+      importDeclaration.addNamedImport(importName);
+    }
+  };
+
+  if (Array.isArray(importName)) {
+    importName.forEach((name) => {
+      addImport(sourceFile, name, moduleSpecifier);
+    });
+  } else {
+    addImport(sourceFile, importName, moduleSpecifier);
+  }
+}
+
 export function addExportToFile(
   sourceFile: SourceFile,
   importName: string | string[],

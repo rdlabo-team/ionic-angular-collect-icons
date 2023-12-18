@@ -1,0 +1,61 @@
+import { Project, SyntaxKind, ts } from "ts-morph";
+import { CliOptions } from "../../../types/cli-options";
+
+import { saveFileChanges } from "../../utils/log-utils";
+import {addExportToFile, addImportToClass, addImportToFile} from '../../utils/typescript-utils';
+import {getRelativePath} from '../../utils/cli-utils';
+
+export const initializeAddIcons = async (
+  project: Project,
+  cliOptions: CliOptions,
+) => {
+  const prodModeSource = project.getSourceFile("app.config.ts") || project.getSourceFile("main.ts");
+
+  if (prodModeSource === undefined) {
+    // If the project does not base angular standalone structured, do nothing.
+    return;
+  }
+
+  const enableProdMode = prodModeSource.getStatements().find((source) => source.getFullText().includes('enableProdMode()'));
+  if (!enableProdMode) {
+    // If the project does not base angular standalone structured, do nothing.
+    return;
+  }
+
+  const importIonIcons = prodModeSource.getImportDeclaration("ionicons");
+  if (importIonIcons) {
+    const namedIconsImports = importIonIcons.getNamedImports();
+    const importIconSpecifier = namedIconsImports.find(
+      (n) => n.getName() === "addIcons",
+    );
+    if (importIconSpecifier) {
+      // Remove the addIcons import specifier.
+      const addIcons = prodModeSource.getStatements().find((l) => {
+        return l.getFullText().includes("addIcons");
+      });
+      if (addIcons) {
+        // already initialize
+        return;
+      } else {
+        // remove for initialize
+        importIconSpecifier.remove();
+      }
+    }
+  }
+
+  addImportToFile(prodModeSource, "addIcons", "ionicons");
+  prodModeSource.addImportDeclaration({
+    defaultImport: '* as addIcons',
+    moduleSpecifier: 'ionicons/icons'
+  });
+
+  const path = getRelativePath(prodModeSource.getFilePath(), [cliOptions.projectPath, cliOptions.iconPath].join('/'));
+  prodModeSource.addImportDeclaration({
+    defaultImport: '* as usedIcons',
+    moduleSpecifier: path.replace('.ts', ''),
+  });
+
+  prodModeSource.addStatements(`addIcons(environment.production ? useIcons : allIcons)`);
+
+  return await saveFileChanges(prodModeSource, cliOptions);
+};

@@ -9,7 +9,14 @@ import {
 import { Project } from "ts-morph";
 
 import { dedent } from "ts-dedent";
-import {getOptionsFromArgv} from './cli-utils';
+import {getOptionsFromArgv, getRelativePath} from './cli-utils';
+
+describe("getRelativePath", () => {
+  it("should return relative path", () => {
+    const path = getRelativePath('/Users/sakakibara/dev/ionic-angular-collect-icons/src/app/example.ts', '/Users/sakakibara/dev/ionic-angular-collect-icons/use-icons.ts');
+    expect(path).toStrictEqual('../../use-icons.ts');
+  });
+});
 
 describe("getOptionsFromArgv", () => {
   it("should return object options", () => {
