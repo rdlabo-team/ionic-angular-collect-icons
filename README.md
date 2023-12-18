@@ -16,6 +16,13 @@ This project is based [ionic-team/ionic-angular-standalone-codemods](https://git
 
 
 ## Initialize
+
+__This is beta version.__
+
+```bash
+npm install @rdlabo/ionic-angular-collect-icons@beta --save-dev
+```
+
 ### 🤖 Automatic Configuration
 
 ```bash
