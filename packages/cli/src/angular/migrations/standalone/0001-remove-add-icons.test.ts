@@ -12,6 +12,7 @@ describe("migrateAppModule", () => {
     const component = `
         import { Component } from "@angular/core";
         import { addIcons } from "ionicons"; 
+        import { readerOutline } from "ionicons/icons"; 
 
         @Component({
           selector: 'my-component',
