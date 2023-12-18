@@ -8,17 +8,19 @@ export const removeAddIcons = async (
   cliOptions: CliOptions,
 ) => {
   for (const sourceFile of project.getSourceFiles()) {
+    const importAddIcons = sourceFile.getImportDeclaration("ionicons");
+    if (!importAddIcons) {
+      // If the ionicons import does not exist, then this file do not use ion-icon
+      continue;
+    }
+    importAddIcons.remove();
+
     const importIcons = sourceFile.getImportDeclaration("ionicons/icons");
     if (importIcons) {
       importIcons.remove();
     }
 
-    const importAddIcons = sourceFile.getImportDeclaration("ionicons");
-    if (importAddIcons) {
-      importAddIcons.remove();
-    }
-
-    const constructor = sourceFile.getClasses()[0].getConstructors()[0];
+    const constructor = sourceFile.getClasses()[0]?.getConstructors()[0];
     if (!constructor) {
       // Create the constructor if it does not exist
       continue;
