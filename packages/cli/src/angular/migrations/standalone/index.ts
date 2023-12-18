@@ -1,6 +1,7 @@
 import type { Project } from "ts-morph";
 import type { CliOptions } from "../../../types/cli-options";
-import { migrateComponents } from "./0002-import-standalone-component";
+import { removeAddIcons } from "./0001-remove-add-icons";
+import { generateUseIcons } from "./0002-generate-use-icons";
 
 import { group, confirm, log, spinner } from "@clack/prompts";
 import { getActualPackageVersion } from "../../utils/package-utils";
@@ -37,8 +38,10 @@ export const runStandaloneMigration = async ({
 
   spinner.start(`Migrating project located at: ${dir}`);
 
+  // remove addIcons method from component constructor
+  await removeAddIcons(project, cliOptions);
   // Migrate components using Ionic components
-  await migrateComponents(project, cliOptions);
+  await generateUseIcons(project, cliOptions);
 
   spinner.stop(`Project migration at ${dir} completed successfully.`);
 

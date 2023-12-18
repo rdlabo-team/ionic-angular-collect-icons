@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { Project } from "ts-morph";
 import dedent from "ts-dedent";
 
-import { migrateComponents } from "./0002-import-standalone-component";
+import { generateUseIcons } from "./0002-generate-use-icons";
 
 describe("migrateComponents", () => {
   describe("standalone angular components", () => {
@@ -24,7 +24,7 @@ describe("migrateComponents", () => {
 
       const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
 
-      await migrateComponents(project, { dryRun: false });
+      await generateUseIcons(project, { dryRun: false });
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
