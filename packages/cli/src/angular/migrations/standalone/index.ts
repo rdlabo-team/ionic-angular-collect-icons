@@ -38,8 +38,10 @@ export const runStandaloneMigration = async ({
 
   spinner.start(`Migrating project located at: ${dir}`);
 
-  // remove addIcons method from component constructor
-  await removeAddIcons(project, cliOptions);
+  if (cliOptions.initialize) {
+    // remove addIcons method from component constructor
+    await removeAddIcons(project, cliOptions);
+  }
   // Migrate components using Ionic components
   await generateUseIcons(project, cliOptions);
 

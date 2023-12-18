@@ -49,7 +49,7 @@ export const generateUseIcons = async (
 
   let useIconFile = project.getSourceFile("use-icons.ts");
   if (!useIconFile) {
-    useIconFile = project.createSourceFile("src/use-icons.ts", ``, {
+    useIconFile = project.createSourceFile(cliOptions.iconPath, ``, {
       overwrite: true,
     });
   }
