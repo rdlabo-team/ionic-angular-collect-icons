@@ -16,13 +16,18 @@ import { existsSync } from "node:fs";
 
 import { cwd } from "node:process";
 import { runStandaloneMigration } from "./angular/migrations/standalone";
+import {getOptionsFromArgv} from './angular/utils/cli-utils';
+import {CliOptions} from './types/cli-options';
 
 const IONIC_REPOSITORY_ISSUES_URL =
   "https://github.com/rdlabo-team/ionic-angular-collect-icons/issues";
+
+const cliOptions = getOptionsFromArgv(process.argv);
+
 const isInteractive = (): boolean =>
   TERMINAL_INFO.tty &&
   !TERMINAL_INFO.ci &&
-  !process.argv.includes("--non-interactive");
+  cliOptions.interactive === true
 
 async function main() {
   console.clear();
@@ -38,7 +43,7 @@ async function main() {
   );
   log.warning("--------------------------------------------------");
 
-  const cli = isInteractive()
+  const _cli = isInteractive()
     ? await group({
         dryRun: () =>
           confirm({
@@ -46,18 +51,23 @@ async function main() {
               "Would you like to run this migration as a dry run? No changes will be written to your project.",
             initialValue: true,
           }),
-        dir: () =>
+        projectPath: () =>
           text({
             message:
               "Please enter the path to your project (default is the current working directory):",
             initialValue: cwd(),
           }),
       })
-    : {
+    : Object.assign({
         // If we are in a non-interactive terminal then use defaults
         dryRun: false,
-        dir: cwd(),
-      };
+        projectPath: cwd(),
+      });
+
+  const cli = Object.assign(_cli, {
+    initialize: false,
+    iconPath: "src/use-icons.ts",
+  }, cliOptions) as CliOptions;
 
   if (typeof cli.dryRun !== "boolean") {
     // User aborted the prompt
@@ -66,9 +76,9 @@ async function main() {
 
   let project: Project;
 
-  if (existsSync(`${cli.dir}/tsconfig.json`)) {
+  if (existsSync(`${cli.projectPath}/tsconfig.json`)) {
     project = new Project({
-      tsConfigFilePath: `${cli.dir}/tsconfig.json`,
+      tsConfigFilePath: `${cli.projectPath}/tsconfig.json`,
     });
   } else {
     project = new Project();
@@ -77,16 +87,16 @@ async function main() {
   const s = spinner();
 
   project.addSourceFilesAtPaths([
-    `${cli.dir}/src/**/*.html`,
-    `${cli.dir}/src/**/*.ts`,
-    `${cli.dir}/angular.json`,
+    `${cli.projectPath}/src/**/*.html`,
+    `${cli.projectPath}/src/**/*.ts`,
+    `${cli.projectPath}/angular.json`,
   ]);
 
   try {
     await runStandaloneMigration({
       project,
       cliOptions: cli,
-      dir: cli.dir,
+      dir: cli.projectPath,
       spinner: s,
     });
   } catch (e: any) {

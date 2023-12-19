@@ -14,7 +14,7 @@ import { saveFileChanges } from "../../utils/log-utils";
 import { addExportToFile } from "../../utils/typescript-utils";
 import { kebabCaseToCamelCase } from "../../utils/string-utils";
 
-export const migrateComponents = async (
+export const generateUseIcons = async (
   project: Project,
   cliOptions: CliOptions,
 ) => {
@@ -49,7 +49,7 @@ export const migrateComponents = async (
 
   let useIconFile = project.getSourceFile("use-icons.ts");
   if (!useIconFile) {
-    useIconFile = project.createSourceFile("src/use-icons.ts", ``, {
+    useIconFile = project.createSourceFile(cliOptions.iconPath, ``, {
       overwrite: true,
     });
   }
