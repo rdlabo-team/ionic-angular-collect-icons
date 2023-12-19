@@ -30,6 +30,25 @@ describe("initializeAddIcons", () => {
 
     await initializeAddIcons(project, { dryRun: false, iconPath: "src/use-icons.ts", projectPath: cwd(), interactive: false, initialize: false });
 
-    console.log(appModuleSourceFile.getText());
+    expect(dedent(appModuleSourceFile.getText())).toBe(
+      dedent(`
+      import { environment } from './environments/environment';
+      import { addIcons } from "ionicons";
+      import * as allIcons from "ionicons/icons";
+      import * as useIcons from "use-icons";
+      
+      if (environment.production) {
+          enableProdMode();
+      }
+      addIcons(environment.production ? useIcons : allIcons);
+      
+      bootstrapApplication(AppComponent, {
+          providers: [
+              { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+              provideIonicAngular(),
+              provideRouter(routes),
+          ],
+      });
+      `));
   });
 });

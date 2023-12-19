@@ -55,7 +55,7 @@ export const initializeAddIcons = async (
     moduleSpecifier: path.replace('.ts', ''),
   });
 
-  prodModeSource.addStatements(`addIcons(environment.production ? useIcons : allIcons)`);
+  prodModeSource.insertStatements(enableProdMode.getChildIndex() + 1, `addIcons(environment.production ? useIcons : allIcons);`);
 
   return await saveFileChanges(prodModeSource, cliOptions);
 };
