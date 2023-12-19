@@ -16,8 +16,8 @@ import { existsSync } from "node:fs";
 
 import { cwd } from "node:process";
 import { runStandaloneMigration } from "./angular/migrations/standalone";
-import {getOptionsFromArgv} from './angular/utils/cli-utils';
-import {CliOptions} from './types/cli-options';
+import { getOptionsFromArgv } from "./angular/utils/cli-utils";
+import { CliOptions } from "./types/cli-options";
 
 const IONIC_REPOSITORY_ISSUES_URL =
   "https://github.com/rdlabo-team/ionic-angular-collect-icons/issues";
@@ -25,9 +25,7 @@ const IONIC_REPOSITORY_ISSUES_URL =
 const cliOptions = getOptionsFromArgv(process.argv);
 
 const isInteractive = (): boolean =>
-  TERMINAL_INFO.tty &&
-  !TERMINAL_INFO.ci &&
-  cliOptions.interactive === true
+  TERMINAL_INFO.tty && !TERMINAL_INFO.ci && cliOptions.interactive === true;
 
 async function main() {
   console.clear();
@@ -64,10 +62,14 @@ async function main() {
         projectPath: cwd(),
       });
 
-  const cli = Object.assign(_cli, {
-    initialize: false,
-    iconPath: "src/use-icons.ts",
-  }, cliOptions) as CliOptions;
+  const cli = Object.assign(
+    _cli,
+    {
+      initialize: false,
+      iconPath: "src/use-icons.ts",
+    },
+    cliOptions,
+  ) as CliOptions;
 
   if (typeof cli.dryRun !== "boolean") {
     // User aborted the prompt

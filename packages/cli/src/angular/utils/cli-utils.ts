@@ -1,13 +1,16 @@
-import { CliOptions } from '../../types/cli-options';
-import {kebabCaseToCamelCase, kebabCaseToPascalCase} from './string-utils';
-import * as path from 'path';
+import { CliOptions } from "../../types/cli-options";
+import { kebabCaseToCamelCase, kebabCaseToPascalCase } from "./string-utils";
+import * as path from "path";
 
-export function getRelativePath(importFilePath: string, targetPath: string): string {
+export function getRelativePath(
+  importFilePath: string,
+  targetPath: string,
+): string {
   return path.relative(path.dirname(importFilePath), targetPath);
 }
 
 export function getOptionsFromArgv(argv: string[]): Partial<CliOptions> {
-  const options = {}
+  const options = {};
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (!arg) {
@@ -16,12 +19,15 @@ export function getOptionsFromArgv(argv: string[]): Partial<CliOptions> {
 
     if (arg.startsWith("--")) {
       const key = kebabCaseToCamelCase(arg.replace("--", ""));
-      const value = argv[i + 1] === undefined || argv[i + 1].startsWith("--") ? true
-        : ['true', 'false'].includes(argv[i + 1]) ? argv[i + 1]　=== 'true'
+      const value =
+        argv[i + 1] === undefined || argv[i + 1].startsWith("--")
+          ? true
+          : ["true", "false"].includes(argv[i + 1])
+          ? argv[i + 1] === "true"
           : argv[i + 1];
       Object.assign(options, {
         [key]: value,
-      })
+      });
     }
   }
   return options as CliOptions;

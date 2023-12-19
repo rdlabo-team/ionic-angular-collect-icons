@@ -25,7 +25,13 @@ describe("migrateComponents", () => {
 
       const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
 
-      await generateUseIcons(project, { dryRun: false, iconPath: "src/use-icons.ts", projectPath: cwd(), interactive: false, initialize: false });
+      await generateUseIcons(project, {
+        dryRun: false,
+        iconPath: "src/use-icons.ts",
+        projectPath: cwd(),
+        interactive: false,
+        initialize: false,
+      });
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),

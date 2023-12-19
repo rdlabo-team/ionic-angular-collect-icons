@@ -14,10 +14,9 @@ This project is based [ionic-team/ionic-angular-standalone-codemods](https://git
 > [!WARNING]
 > This project is experimental. Review all changes before committing them to your project.
 
-
 ## Initialize
 
-__This is beta version.__
+**This is beta version.**
 
 ```bash
 npm install @rdlabo/ionic-angular-collect-icons@beta --save-dev
@@ -72,7 +71,7 @@ npx @rdlabo/ionic-angular-collect-icons
 
 ### Let's automate run
 
-It is inefficient to run commands each time before running a production build, so put them in an npm script to automate the process. Example: 
+It is inefficient to run commands each time before running a production build, so put them in an npm script to automate the process. Example:
 
 ```diff
   "scripts": {
@@ -109,7 +108,7 @@ If you want to initialize `addIcons` automatically, you can use the `--initializ
     enableProdMode();
   }
 
-+  addIcons(environment.production ? useIcons : allIcons);  
++  addIcons(environment.production ? useIcons : allIcons);
 ```
 
 the CLI will add lines at the file that has `enableProdMode()`. Of course, it can also be set manually.
@@ -131,13 +130,14 @@ npx @rdlabo/ionic-angular-collect-icons --initialize true
 
 ### --project-path [string]
 
-If you want to specify the path to the project, you can use the `--project-path` flag. The default is the current directory.　
+If you want to specify the path to the project, you can use the `--project-path` flag. The default is the current directory.
 
 ```bash
 npx @rdlabo/ionic-angular-collect-icons --project-path /path/to/project
 ```
 
 Target files are under the `src` directory from the specified path.
+
 - path/to/project + `src/**/*.ts`
 - path/to/project + `src/**/*.html`
 - path/to/project + `src/**/*.scss`

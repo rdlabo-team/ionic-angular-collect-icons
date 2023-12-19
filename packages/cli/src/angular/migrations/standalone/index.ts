@@ -5,7 +5,7 @@ import { generateUseIcons } from "./0002-generate-use-icons";
 
 import { group, confirm, log, spinner } from "@clack/prompts";
 import { getActualPackageVersion } from "../../utils/package-utils";
-import {initializeAddIcons} from './0000-initialize-add-icons';
+import { initializeAddIcons } from "./0000-initialize-add-icons";
 
 interface StandaloneMigrationOptions {
   /**

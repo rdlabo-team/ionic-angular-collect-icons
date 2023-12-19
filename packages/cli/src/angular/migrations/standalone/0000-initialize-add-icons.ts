@@ -2,21 +2,28 @@ import { Project, SyntaxKind, ts } from "ts-morph";
 import { CliOptions } from "../../../types/cli-options";
 
 import { saveFileChanges } from "../../utils/log-utils";
-import {addExportToFile, addImportToClass, addImportToFile} from '../../utils/typescript-utils';
-import {getRelativePath} from '../../utils/cli-utils';
+import {
+  addExportToFile,
+  addImportToClass,
+  addImportToFile,
+} from "../../utils/typescript-utils";
+import { getRelativePath } from "../../utils/cli-utils";
 
 export const initializeAddIcons = async (
   project: Project,
   cliOptions: CliOptions,
 ) => {
-  const prodModeSource = project.getSourceFile("app.config.ts") || project.getSourceFile("main.ts");
+  const prodModeSource =
+    project.getSourceFile("app.config.ts") || project.getSourceFile("main.ts");
 
   if (prodModeSource === undefined) {
     // If the project does not base angular standalone structured, do nothing.
     return;
   }
 
-  const enableProdMode = prodModeSource.getStatements().find((source) => source.getFullText().includes('enableProdMode()'));
+  const enableProdMode = prodModeSource
+    .getStatements()
+    .find((source) => source.getFullText().includes("enableProdMode()"));
   if (!enableProdMode) {
     // If the project does not base angular standalone structured, do nothing.
     return;
@@ -45,17 +52,23 @@ export const initializeAddIcons = async (
 
   addImportToFile(prodModeSource, "addIcons", "ionicons");
   prodModeSource.addImportDeclaration({
-    defaultImport: '* as allIcons',
-    moduleSpecifier: 'ionicons/icons'
+    defaultImport: "* as allIcons",
+    moduleSpecifier: "ionicons/icons",
   });
 
-  const path = getRelativePath(prodModeSource.getFilePath(), [cliOptions.projectPath, cliOptions.iconPath].join('/'));
+  const path = getRelativePath(
+    prodModeSource.getFilePath(),
+    [cliOptions.projectPath, cliOptions.iconPath].join("/"),
+  );
   prodModeSource.addImportDeclaration({
-    defaultImport: '* as useIcons',
-    moduleSpecifier: path.replace('.ts', ''),
+    defaultImport: "* as useIcons",
+    moduleSpecifier: path.replace(".ts", ""),
   });
 
-  prodModeSource.insertStatements(enableProdMode.getChildIndex() + 1, `addIcons(environment.production ? useIcons : allIcons);`);
+  prodModeSource.insertStatements(
+    enableProdMode.getChildIndex() + 1,
+    `addIcons(environment.production ? useIcons : allIcons);`,
+  );
 
   return await saveFileChanges(prodModeSource, cliOptions);
 };

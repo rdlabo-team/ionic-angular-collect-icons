@@ -3,7 +3,7 @@ import { Project } from "ts-morph";
 import { dedent } from "ts-dedent";
 
 import { initializeAddIcons } from "./0000-initialize-add-icons";
-import {cwd} from 'node:process';
+import { cwd } from "node:process";
 
 describe("initializeAddIcons", () => {
   it("initialize add icons to file", async () => {
@@ -28,7 +28,13 @@ describe("initializeAddIcons", () => {
       `),
     );
 
-    await initializeAddIcons(project, { dryRun: false, iconPath: "src/use-icons.ts", projectPath: cwd(), interactive: false, initialize: false });
+    await initializeAddIcons(project, {
+      dryRun: false,
+      iconPath: "src/use-icons.ts",
+      projectPath: cwd(),
+      interactive: false,
+      initialize: false,
+    });
 
     expect(dedent(appModuleSourceFile.getText())).toBe(
       dedent(`
@@ -49,6 +55,7 @@ describe("initializeAddIcons", () => {
               provideRouter(routes),
           ],
       });
-      `));
+      `),
+    );
   });
 });
