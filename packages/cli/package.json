@@ -1,6 +1,6 @@
 {
   "name": "@rdlabo/ionic-angular-collect-icons",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "dependencies": {
     "@angular-eslint/template-parser": "^16.1.2",
     "@clack/core": "^0.3.3",
