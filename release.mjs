@@ -9,7 +9,7 @@ workspaces.forEach(async (workspace) => {
   const buildPackagePath = path.resolve('./packages/' + workspace);
   await updatePackage(buildPackagePath + '/package.json', { version: pkg.version });
   exec(
-    `cd ${buildPackagePath} && npm publish --tag=beta`,
+    `cd ${buildPackagePath} && npm publish --access public`,
     (err, stdout, stderr) => {
       if (err) {
         console.error(err);
