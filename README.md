@@ -156,6 +156,10 @@ Yes. Please check this issue: https://github.com/ionic-team/ionic-framework/issu
 
 > You're more than welcome to register them in main.ts or app.component.ts. You can then use them anywhere in your application. However, the initial bundle size may increase because the icons need to be loaded up front.
 
+- Why not addIcons in each component?
+
+This is to minimize diffs by libraries. I did not like to have every component change on every run. I wanted to keep the diff as small as possible.
+
 ## Developing
 
 1. Clone this repository.
