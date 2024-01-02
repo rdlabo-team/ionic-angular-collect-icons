@@ -142,4 +142,34 @@ describe("migrateComponents", () => {
       );
     });
   });
+
+  describe("get icon from html template", () => {
+    it("should detect and import icons used in the template", async () => {
+      const project = new Project({ useInMemoryFileSystem: true });
+
+      const html = `
+        @for (item of vm.computedThreadList(); track item.threadId; let i = $index) {
+            @if (item.images.length > 0) {
+                <ion-icon name="image-outline" color="medium"></ion-icon>
+            }
+        }
+      `;
+
+      project.createSourceFile("foo.component.html", dedent(html));
+
+      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
+
+      await generateUseIcons(project, {
+        dryRun: false,
+        iconPath: "src/use-icons.ts",
+        projectPath: cwd(),
+        interactive: false,
+        initialize: false,
+      });
+
+      expect(dedent(useIconFile.getText())).toBe(
+        dedent(`export { imageOutline } from "ionicons/icons";`),
+      );
+    });
+  });
 });

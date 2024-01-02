@@ -191,6 +191,10 @@ function detectIonicComponentsAndIcons(htmlAsString: string, filePath: string) {
           recursivelyFindIonicComponents(childNode);
         }
       }
+    } else if (node.type === "ForLoopBlock") {
+      for (const childNode of node.children) {
+        recursivelyFindIonicComponents(childNode);
+      }
     }
   };
 
