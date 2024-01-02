@@ -151,7 +151,9 @@ describe("migrateComponents", () => {
       });
 
       expect(dedent(useIconFile.getText())).toBe(
-        dedent(`export { imageOutline, accessibilityOutline } from "ionicons/icons";`),
+        dedent(
+          `export { imageOutline, accessibilityOutline } from "ionicons/icons";`,
+        ),
       );
     });
   });
