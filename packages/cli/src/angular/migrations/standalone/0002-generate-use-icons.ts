@@ -131,11 +131,15 @@ function detectIonicComponentsAndIcons(htmlAsString: string, filePath: string) {
               if (ast.trueExp.type === 'LiteralPrimitive') {
                 icons.push(ast.trueExp.value);
               } else if (ast.trueExp.type === 'Conditional') {
-                return deepGetIconConditional(ast.trueExp, icons);
-              } else if (ast.falseExp.type === 'LiteralPrimitive') {
+                deepGetIconConditional(ast.trueExp, icons);
+              } else {
+                skippedIconsHtml.push(skippedIcon);
+              }
+
+              if (ast.falseExp.type === 'LiteralPrimitive') {
                 icons.push(ast.falseExp.value);
               } else if (ast.falseExp.type === 'Conditional') {
-                return deepGetIconConditional(ast.falseExp, icons);
+                deepGetIconConditional(ast.falseExp, icons);
               } else {
                 skippedIconsHtml.push(skippedIcon);
               }
