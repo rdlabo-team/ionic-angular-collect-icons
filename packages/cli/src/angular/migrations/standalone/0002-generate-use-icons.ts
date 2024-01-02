@@ -195,6 +195,14 @@ function detectIonicComponentsAndIcons(htmlAsString: string, filePath: string) {
       for (const childNode of node.children) {
         recursivelyFindIonicComponents(childNode);
       }
+    } else if (node.type === "SwitchBlock") {
+      for (const c of node.cases) {
+        for (const childNode of c.children) {
+          recursivelyFindIonicComponents(childNode);
+        }
+      }
+    } else {
+      console.log(node.type);
     }
   };
 
