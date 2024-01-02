@@ -44,7 +44,10 @@ export const generateUseIcons = async (
     }
   }
 
-  // skippedIconsHtmlAll = Array.from(new Set(skippedIconsHtmlAll));
+  skippedIconsHtmlAll = Array.from(new Set(skippedIconsHtmlAll));
+  console.warn(
+    "[Ionic Dev] Cannot generate these icon inputs. Please check these: " + skippedIconsHtmlAll.join(', '),
+  );
   ionicComponentsAll = Array.from(new Set(ionicComponentsAll));
 
   let useIconFile = project.getSourceFile("use-icons.ts");
@@ -124,10 +127,27 @@ function detectIonicComponentsAndIcons(htmlAsString: string, filePath: string) {
              */
             const iconNameMatch = skippedIcon.match(iconNameRegex);
 
+            const deepGetIconConditional = (ast: typeof boundNameAttribute.value.ast, icons: string[]): string[] => {
+              if (ast.trueExp.type === 'LiteralPrimitive') {
+                icons.push(ast.trueExp.value);
+              } else if (ast.trueExp.type === 'Conditional') {
+                return deepGetIconConditional(ast.trueExp, icons);
+              } else if (ast.falseExp.type === 'LiteralPrimitive') {
+                icons.push(ast.falseExp.value);
+              } else if (ast.falseExp.type === 'Conditional') {
+                return deepGetIconConditional(ast.falseExp, icons);
+              } else {
+                skippedIconsHtml.push(skippedIcon);
+              }
+              return icons;
+            }
+
             if (iconNameMatch) {
               if (!ionIcons.includes(iconNameMatch[1])) {
                 ionIcons.push(iconNameMatch[1]);
               }
+            } else if (boundNameAttribute.value.ast.type === 'Conditional') {
+              deepGetIconConditional(boundNameAttribute.value.ast, ionIcons);
             } else {
               // IonIcon name is a calculated value from a variable or function.
               // We can't determine the value of the name at this time.

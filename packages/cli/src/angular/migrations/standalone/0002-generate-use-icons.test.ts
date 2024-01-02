@@ -17,7 +17,7 @@ describe("migrateComponents", () => {
           selector: 'my-component',
           template: '<ion-icon name="logo-ionic"></ion-icon><ion-icon name="close-outline"></ion-icon>',
           standalone: true
-        }) 
+        })
         export class MyComponent { }
       `;
 
@@ -50,8 +50,79 @@ describe("migrateComponents", () => {
           selector: 'my-component',
           template: '@if(1 === 1) {<ion-icon name="logo-ionic"></ion-icon><ion-icon name="close-outline"></ion-icon> }',
           standalone: true
-        }) 
+        })
         export class MyComponent { }
+      `;
+
+      project.createSourceFile("foo.component.ts", dedent(component));
+
+      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
+
+      await generateUseIcons(project, {
+        dryRun: false,
+        iconPath: "src/use-icons.ts",
+        projectPath: cwd(),
+        interactive: false,
+        initialize: false,
+      });
+
+      expect(dedent(useIconFile.getText())).toBe(
+        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+      );
+    });
+  });
+
+  describe("get binding name", () => {
+    it("should detect and import icons used in the template", async () => {
+      const project = new Project({ useInMemoryFileSystem: true });
+
+      const component = `
+        import { Component } from "@angular/core";
+
+        @Component({
+          selector: 'my-component',
+          template: \`<ion-icon [name]="is ? 'logo-ionic' : 'close-outline'"></ion-icon>\`,
+          standalone: true
+        })
+        export class MyComponent {
+            public is = true;
+        }
+      `;
+
+      project.createSourceFile("foo.component.ts", dedent(component));
+
+      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
+
+      await generateUseIcons(project, {
+        dryRun: false,
+        iconPath: "src/use-icons.ts",
+        projectPath: cwd(),
+        interactive: false,
+        initialize: false,
+      });
+
+      expect(dedent(useIconFile.getText())).toBe(
+        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+      );
+    });
+  });
+
+  describe("get double binding name", () => {
+    it("should detect and import icons used in the template", async () => {
+      const project = new Project({ useInMemoryFileSystem: true });
+
+      const component = `
+        import { Component } from "@angular/core";
+
+        @Component({
+          selector: 'my-component',
+          template: \`<ion-icon [name]="is ? 'logo-ionic' : has ? 'logo-ionic' : 'close-outline'"></ion-icon>\`,
+          standalone: true
+        }) 
+        export class MyComponent {
+            public is = true;
+            public has = true;
+        }
       `;
 
       project.createSourceFile("foo.component.ts", dedent(component));
