@@ -125,6 +125,35 @@ describe("migrateComponents", () => {
         dedent(`export { imageOutline, closeOutline } from "ionicons/icons";`),
       );
     });
+
+    it("@defer", async () => {
+      const project = new Project({ useInMemoryFileSystem: true });
+
+      const html = `
+        @defer (when loaded) {
+          <ion-icon name="image-outline" color="medium"></ion-icon>
+        } @loading {
+          <ion-icon name="accessibility-outline"></ion-icon>
+        } @placeholder {
+        }
+      `;
+
+      project.createSourceFile("foo.component.html", dedent(html));
+
+      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
+
+      await generateUseIcons(project, {
+        dryRun: false,
+        iconPath: "src/use-icons.ts",
+        projectPath: cwd(),
+        interactive: false,
+        initialize: false,
+      });
+
+      expect(dedent(useIconFile.getText())).toBe(
+        dedent(`export { imageOutline, accessibilityOutline } from "ionicons/icons";`),
+      );
+    });
   });
 
   describe("get binding name", () => {
