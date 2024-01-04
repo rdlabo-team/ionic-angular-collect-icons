@@ -35,12 +35,6 @@ async function main() {
     "This utility will collect ion-icon from your Ionic Angular project, and generate files to collect and export all icons.",
   );
 
-  log.warning("--------------------------------------------------");
-  log.warning(
-    "⚠️  This utility is experimental. Always review the changes made before committing them to your project. ⚠️",
-  );
-  log.warning("--------------------------------------------------");
-
   const _cli = isInteractive()
     ? await group({
         dryRun: () =>
