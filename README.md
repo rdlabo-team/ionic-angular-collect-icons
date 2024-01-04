@@ -163,17 +163,15 @@ No, and we do not plan to support this program. For example, this kind of code i
 
 ```ts
 @Component({
-  selector: 'app-example',
-  template: `
-    <ion-icon [name]="iconName"></ion-icon>
-  `,
+  selector: "app-example",
+  template: ` <ion-icon [name]="iconName"></ion-icon> `,
 })
 export class ExampleComponent {
-  iconName = 'add';
+  iconName = "add";
 
   ionViewWillEnter() {
     setTimeout(() => {
-      this.iconName = 'remove';
+      this.iconName = "remove";
     }, 1000);
   }
 }
