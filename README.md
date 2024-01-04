@@ -156,6 +156,34 @@ Yes. Please check this issue: https://github.com/ionic-team/ionic-framework/issu
 
 > You're more than welcome to register them in main.ts or app.component.ts. You can then use them anywhere in your application. However, the initial bundle size may increase because the icons need to be loaded up front.
 
+- Support Unit Test?
+
+Unit test at ChromeHeadless don't read `main.ts`. So, you need to add `addIcons` in each test, or add `addIcons` in `src/test.ts`.
+
+- Support binding icon name?
+
+No, and we do not plan to support this program. For example, this kind of code is difficult to follow until it is displayed.
+
+```ts
+@Component({
+  selector: 'app-example',
+  template: `
+    <ion-icon [name]="iconName"></ion-icon>
+  `,
+})
+export class ExampleComponent {
+  iconName = 'add';
+
+  ionViewWillEnter() {
+    setTimeout(() => {
+      this.iconName = 'remove';
+    }, 1000);
+  }
+}
+```
+
+If you are doing this kind of complex processing, please import manually.
+
 - Why not addIcons in each component?
 
 This is to minimize diffs by libraries. I did not like to have every component change on every run. I wanted to keep the diff as small as possible.
