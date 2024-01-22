@@ -1,12 +1,14 @@
-import {Project, SourceFile} from 'ts-morph';
-import dedent from 'ts-dedent';
-import {generateUseIcons} from './0002-generate-use-icons';
-import {cwd} from 'node:process';
+import { Project, SourceFile } from "ts-morph";
+import dedent from "ts-dedent";
+import { generateUseIcons } from "./0002-generate-use-icons";
+import { cwd } from "node:process";
 
-export const createTestIconFile = async (fileSource: {
-  filePath: string;
-  sourceFileText: string
-}[]): Promise<SourceFile> => {
+export const createTestIconFile = async (
+  fileSource: {
+    filePath: string;
+    sourceFileText: string;
+  }[],
+): Promise<SourceFile> => {
   const project = new Project({ useInMemoryFileSystem: true });
   for (const file of fileSource) {
     project.createSourceFile(file.filePath, dedent(file.sourceFileText));
@@ -22,4 +24,4 @@ export const createTestIconFile = async (fileSource: {
   });
 
   return useIconFile;
-}
+};
