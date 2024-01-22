@@ -4,12 +4,11 @@ import dedent from "ts-dedent";
 import { cwd } from "node:process";
 
 import { generateUseIcons } from "./0002-generate-use-icons";
+import {createTestIconFile} from './test-helper';
 
 describe("migrateComponents", () => {
   describe("standalone angular components", () => {
     it("should detect and import icons used in the template", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const component = `
         import { Component } from "@angular/core";
 
@@ -21,17 +20,12 @@ describe("migrateComponents", () => {
         export class MyComponent { }
       `;
 
-      project.createSourceFile("foo.component.ts", dedent(component));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.ts',
+          sourceFileText: dedent(component)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
@@ -39,8 +33,6 @@ describe("migrateComponents", () => {
     });
 
     it("should detect and import icons of ios used in the template", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const component = `
         import { Component } from "@angular/core";
 
@@ -52,17 +44,12 @@ describe("migrateComponents", () => {
         export class MyComponent { }
       `;
 
-      project.createSourceFile("foo.component.ts", dedent(component));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.ts',
+          sourceFileText: dedent(component)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
@@ -72,8 +59,6 @@ describe("migrateComponents", () => {
 
   describe("angular control flow", () => {
     it("@if", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const component = `
         import { Component } from "@angular/core";
 
@@ -85,17 +70,12 @@ describe("migrateComponents", () => {
         export class MyComponent { }
       `;
 
-      project.createSourceFile("foo.component.ts", dedent(component));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.ts',
+          sourceFileText: dedent(component)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
@@ -103,25 +83,18 @@ describe("migrateComponents", () => {
     });
 
     it("@for", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const html = `
         @for (item of vm.computedThreadList(); track item.threadId; let i = $index) {
             <ion-icon name="image-outline" color="medium"></ion-icon>
         }
       `;
 
-      project.createSourceFile("foo.component.html", dedent(html));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.html',
+          sourceFileText: dedent(html)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { imageOutline } from "ionicons/icons";`),
@@ -129,8 +102,6 @@ describe("migrateComponents", () => {
     });
 
     it("@switch", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const html = `
         @switch (flag) {
           @case ('A') {
@@ -140,17 +111,12 @@ describe("migrateComponents", () => {
         }
       `;
 
-      project.createSourceFile("foo.component.html", dedent(html));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.html',
+          sourceFileText: dedent(html)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { imageOutline, closeOutline } from "ionicons/icons";`),
@@ -158,8 +124,6 @@ describe("migrateComponents", () => {
     });
 
     it("@defer", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const html = `
         @defer (when loaded) {
           <ion-icon name="image-outline" color="medium"></ion-icon>
@@ -169,17 +133,12 @@ describe("migrateComponents", () => {
         }
       `;
 
-      project.createSourceFile("foo.component.html", dedent(html));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.html',
+          sourceFileText: dedent(html)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(
@@ -191,8 +150,6 @@ describe("migrateComponents", () => {
 
   describe("get binding name", () => {
     it("should detect and import icons used in the template", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const component = `
         import { Component } from "@angular/core";
 
@@ -206,17 +163,12 @@ describe("migrateComponents", () => {
         }
       `;
 
-      project.createSourceFile("foo.component.ts", dedent(component));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.ts',
+          sourceFileText: dedent(component)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
@@ -226,8 +178,6 @@ describe("migrateComponents", () => {
 
   describe("get double binding name", () => {
     it("should detect and import icons used in the template", async () => {
-      const project = new Project({ useInMemoryFileSystem: true });
-
       const component = `
         import { Component } from "@angular/core";
 
@@ -242,17 +192,12 @@ describe("migrateComponents", () => {
         }
       `;
 
-      project.createSourceFile("foo.component.ts", dedent(component));
-
-      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
-
-      await generateUseIcons(project, {
-        dryRun: false,
-        iconPath: "src/use-icons.ts",
-        projectPath: cwd(),
-        interactive: false,
-        initialize: false,
-      });
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: 'foo.component.ts',
+          sourceFileText: dedent(component)
+        }
+      ]);
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
