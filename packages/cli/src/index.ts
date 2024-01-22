@@ -60,7 +60,7 @@ async function main() {
     _cli,
     {
       initialize: false,
-      iconPath: "${cli.projectPath}/src/use-icons.ts",
+      iconPath: `${_cli.projectPath}/src/use-icons.ts`,
     },
     cliOptions,
   ) as CliOptions;
@@ -85,7 +85,7 @@ async function main() {
   project.addSourceFilesAtPaths([
     `${cli.projectPath}/src/**/*.html`,
     `${cli.projectPath}/src/**/*.ts`,
-    `${cli.projectPath}/angular.json`,
+    `./angular.json`,
   ]);
 
   try {
