@@ -37,6 +37,37 @@ describe("migrateComponents", () => {
         dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
       );
     });
+
+    it("should detect and import icons of ios used in the template", async () => {
+      const project = new Project({ useInMemoryFileSystem: true });
+
+      const component = `
+        import { Component } from "@angular/core";
+
+        @Component({
+          selector: 'my-component',
+          template: '<ion-icon ios="logo-ionic"></ion-icon><ion-icon ios="close-outline"></ion-icon>',
+          standalone: true
+        })
+        export class MyComponent { }
+      `;
+
+      project.createSourceFile("foo.component.ts", dedent(component));
+
+      const useIconFile = project.createSourceFile("use-icons.ts", dedent(``));
+
+      await generateUseIcons(project, {
+        dryRun: false,
+        iconPath: "src/use-icons.ts",
+        projectPath: cwd(),
+        interactive: false,
+        initialize: false,
+      });
+
+      expect(dedent(useIconFile.getText())).toBe(
+        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+      );
+    });
   });
 
   describe("angular control flow", () => {
