@@ -92,7 +92,7 @@ async function main() {
     await runStandaloneMigration({
       project,
       cliOptions: cli,
-      dir: cli.projectPath,
+      dir: cwd(),
       spinner: s,
     });
   } catch (e: any) {
