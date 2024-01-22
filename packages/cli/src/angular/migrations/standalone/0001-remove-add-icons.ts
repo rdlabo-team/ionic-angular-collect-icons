@@ -1,4 +1,4 @@
-import { Project, ts } from "ts-morph";
+import { Project } from "ts-morph";
 import { CliOptions } from "../../../types/cli-options";
 
 import { saveFileChanges } from "../../utils/log-utils";

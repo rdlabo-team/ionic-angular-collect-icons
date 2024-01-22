@@ -1,9 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { Project } from "ts-morph";
+import { describe, expect, it } from "vitest";
 import dedent from "ts-dedent";
-import { cwd } from "node:process";
-
-import { generateUseIcons } from "./0002-generate-use-icons";
 import { createTestIconFile } from "./test-helper";
 
 describe("migrateComponents", () => {

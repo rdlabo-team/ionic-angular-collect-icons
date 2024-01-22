@@ -3,7 +3,7 @@ import type { CliOptions } from "../../../types/cli-options";
 import { removeAddIcons } from "./0001-remove-add-icons";
 import { generateUseIcons } from "./0002-generate-use-icons";
 
-import { group, confirm, log, spinner } from "@clack/prompts";
+import { confirm, group, log, spinner } from "@clack/prompts";
 import { getActualPackageVersion } from "../../utils/package-utils";
 import { initializeAddIcons } from "./0000-initialize-add-icons";
 
