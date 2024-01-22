@@ -52,13 +52,13 @@ export const initializeAddIcons = async (
     moduleSpecifier: "ionicons/icons",
   });
 
-  const path = getRelativePath(
+  const relativePath = getRelativePath(
     prodModeSource.getFilePath(),
     [cliOptions.projectPath, cliOptions.iconPath].join("/"),
   );
   prodModeSource.addImportDeclaration({
     defaultImport: "* as useIcons",
-    moduleSpecifier: path.replace(".ts", ""),
+    moduleSpecifier: relativePath.replace(".ts", ""),
   });
 
   prodModeSource.insertStatements(
