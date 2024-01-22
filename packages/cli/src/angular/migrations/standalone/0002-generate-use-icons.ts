@@ -45,10 +45,12 @@ export const generateUseIcons = async (
   }
 
   skippedIconsHtmlAll = Array.from(new Set(skippedIconsHtmlAll));
-  console.warn(
-    "[Ionic Dev] Cannot generate these icon inputs. Please check these: " +
+  if (skippedIconsHtmlAll.length > 0) {
+    console.warn(
+      "[Dev] Cannot generate these icon inputs. Please check these: " +
       skippedIconsHtmlAll.join(", "),
-  );
+    );
+  }
   ionicComponentsAll = Array.from(new Set(ionicComponentsAll));
 
   let useIconFile = project.getSourceFile("use-icons.ts");
