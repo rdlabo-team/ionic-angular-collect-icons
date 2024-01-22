@@ -48,7 +48,7 @@ export const generateUseIcons = async (
   if (skippedIconsHtmlAll.length > 0) {
     console.warn(
       "[Dev] Cannot generate these icon inputs. Please check these: " +
-      skippedIconsHtmlAll.join(", "),
+        skippedIconsHtmlAll.join(", "),
     );
   }
   ionicComponentsAll = Array.from(new Set(ionicComponentsAll));
