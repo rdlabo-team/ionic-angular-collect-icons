@@ -4,7 +4,7 @@ import dedent from "ts-dedent";
 import { cwd } from "node:process";
 
 import { generateUseIcons } from "./0002-generate-use-icons";
-import {createTestIconFile} from './test-helper';
+import { createTestIconFile } from "./test-helper";
 
 describe("migrateComponents", () => {
   describe("standalone angular components", () => {
@@ -22,9 +22,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.ts',
-          sourceFileText: dedent(component)
-        }
+          filePath: "foo.component.ts",
+          sourceFileText: dedent(component),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
@@ -46,9 +46,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.ts',
-          sourceFileText: dedent(component)
-        }
+          filePath: "foo.component.ts",
+          sourceFileText: dedent(component),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
@@ -72,9 +72,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.ts',
-          sourceFileText: dedent(component)
-        }
+          filePath: "foo.component.ts",
+          sourceFileText: dedent(component),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
@@ -91,9 +91,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.html',
-          sourceFileText: dedent(html)
-        }
+          filePath: "foo.component.html",
+          sourceFileText: dedent(html),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
@@ -113,9 +113,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.html',
-          sourceFileText: dedent(html)
-        }
+          filePath: "foo.component.html",
+          sourceFileText: dedent(html),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
@@ -135,9 +135,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.html',
-          sourceFileText: dedent(html)
-        }
+          filePath: "foo.component.html",
+          sourceFileText: dedent(html),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
@@ -165,9 +165,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.ts',
-          sourceFileText: dedent(component)
-        }
+          filePath: "foo.component.ts",
+          sourceFileText: dedent(component),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
@@ -194,9 +194,9 @@ describe("migrateComponents", () => {
 
       const useIconFile = await createTestIconFile([
         {
-          filePath: 'foo.component.ts',
-          sourceFileText: dedent(component)
-        }
+          filePath: "foo.component.ts",
+          sourceFileText: dedent(component),
+        },
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
