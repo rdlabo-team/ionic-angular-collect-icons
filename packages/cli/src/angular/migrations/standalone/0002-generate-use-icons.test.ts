@@ -38,7 +38,7 @@ describe("migrateComponents", () => {
 
         @Component({
           selector: 'my-component',
-          template: '<ion-icon ios="logo-ionic"></ion-icon><ion-icon ios="close-outline"></ion-icon>',
+          template: '<ion-icon ios="logo-ionic"></ion-icon><ion-icon md="close-outline"></ion-icon>',
           standalone: true
         })
         export class MyComponent { }
