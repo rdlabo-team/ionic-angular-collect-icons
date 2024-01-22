@@ -60,7 +60,7 @@ async function main() {
     _cli,
     {
       initialize: false,
-      iconPath: `${_cli.projectPath}/src/use-icons.ts`,
+      iconPath: `./src/use-icons.ts`,
     },
     cliOptions,
   ) as CliOptions;

@@ -13,6 +13,7 @@ import { IONIC_COMPONENTS } from "../../utils/ionic-utils";
 import { saveFileChanges } from "../../utils/log-utils";
 import { addExportToFile } from "../../utils/typescript-utils";
 import { kebabCaseToCamelCase } from "../../utils/string-utils";
+import path from 'node:path';
 
 export const generateUseIcons = async (
   project: Project,
@@ -55,7 +56,7 @@ export const generateUseIcons = async (
 
   let useIconFile = project.getSourceFile("use-icons.ts");
   if (!useIconFile) {
-    useIconFile = project.createSourceFile(cliOptions.iconPath, ``, {
+    useIconFile = project.createSourceFile(path.resolve(cliOptions.projectPath, cliOptions.iconPath), ``, {
       overwrite: true,
     });
   }
