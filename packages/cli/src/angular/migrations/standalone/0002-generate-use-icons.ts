@@ -17,8 +17,8 @@ export const generateUseIcons = async (
   project: Project,
   cliOptions: CliOptions,
 ) => {
-  let skippedIconsHtmlAll: string[] = [];
-  let ionicComponentsAll: string[] = [];
+  const skippedIconsHtmlAll: string[] = [];
+  const ionIconsAll: string[] = [];
 
   for (const sourceFile of project.getSourceFiles()) {
     if (sourceFile.getFilePath().endsWith(".html")) {
@@ -28,8 +28,8 @@ export const generateUseIcons = async (
         htmlAsString,
         sourceFile.getFilePath(),
       );
-      skippedIconsHtmlAll = skippedIconsHtmlAll.concat(skippedIconsHtml);
-      ionicComponentsAll = ionicComponentsAll.concat(ionIcons);
+      skippedIconsHtmlAll.push(...skippedIconsHtml);
+      ionIconsAll.push(...ionIcons);
     } else if (sourceFile.getFilePath().endsWith(".ts")) {
       const templateAsString = getComponentTemplateAsString(sourceFile);
       if (templateAsString) {
@@ -37,20 +37,23 @@ export const generateUseIcons = async (
           templateAsString,
           sourceFile.getFilePath(),
         );
-        skippedIconsHtmlAll = skippedIconsHtmlAll.concat(skippedIconsHtml);
-        ionicComponentsAll = ionicComponentsAll.concat(ionIcons);
+        skippedIconsHtmlAll.push(...skippedIconsHtml) ;
+        ionIconsAll.push(...ionIcons);
       }
     }
   }
 
-  skippedIconsHtmlAll = Array.from(new Set(skippedIconsHtmlAll));
-  if (skippedIconsHtmlAll.length > 0) {
+  const uniqueSkippedIconsHtmlAll = Array.from(new Set(skippedIconsHtmlAll));
+  uniqueSkippedIconsHtmlAll.sort();
+  if (uniqueSkippedIconsHtmlAll.length > 0) {
     console.warn(
       "[Dev] Cannot generate these icon inputs. Please check these: " +
-        skippedIconsHtmlAll.join(", "),
+      uniqueSkippedIconsHtmlAll.join(", "),
     );
   }
-  ionicComponentsAll = Array.from(new Set(ionicComponentsAll));
+
+  const uniqueIonIconsAll = Array.from(new Set(ionIconsAll));
+  uniqueIonIconsAll.sort();
 
   let useIconFile = project.getSourceFile("use-icons.ts");
   if (!useIconFile) {
@@ -63,9 +66,9 @@ export const generateUseIcons = async (
     );
   }
 
-  if (useIconFile && ionicComponentsAll.length > 0) {
+  if (useIconFile && uniqueIonIconsAll.length > 0) {
     useIconFile.removeText();
-    for (const ionIcon of ionicComponentsAll) {
+    for (const ionIcon of uniqueIonIconsAll) {
       const iconName = kebabCaseToCamelCase(ionIcon);
       addExportToFile(useIconFile, iconName, "ionicons/icons");
     }

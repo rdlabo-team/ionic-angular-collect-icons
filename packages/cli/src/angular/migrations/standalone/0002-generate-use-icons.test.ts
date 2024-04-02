@@ -24,7 +24,7 @@ describe("migrateComponents", () => {
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
-        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+        dedent(`export { closeOutline, logoIonic } from "ionicons/icons";`),
       );
     });
 
@@ -48,7 +48,7 @@ describe("migrateComponents", () => {
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
-        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+        dedent(`export { closeOutline, logoIonic } from "ionicons/icons";`),
       );
     });
   });
@@ -74,7 +74,7 @@ describe("migrateComponents", () => {
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
-        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+        dedent(`export { closeOutline, logoIonic } from "ionicons/icons";`),
       );
     });
 
@@ -115,7 +115,7 @@ describe("migrateComponents", () => {
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
-        dedent(`export { imageOutline, closeOutline } from "ionicons/icons";`),
+        dedent(`export { closeOutline, imageOutline } from "ionicons/icons";`),
       );
     });
 
@@ -138,7 +138,7 @@ describe("migrateComponents", () => {
 
       expect(dedent(useIconFile.getText())).toBe(
         dedent(
-          `export { imageOutline, accessibilityOutline } from "ionicons/icons";`,
+          `export { accessibilityOutline, imageOutline } from "ionicons/icons";`,
         ),
       );
     });
@@ -167,7 +167,7 @@ describe("migrateComponents", () => {
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
-        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+        dedent(`export { closeOutline, logoIonic } from "ionicons/icons";`),
       );
     });
   });
@@ -196,7 +196,7 @@ describe("migrateComponents", () => {
       ]);
 
       expect(dedent(useIconFile.getText())).toBe(
-        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+        dedent(`export { closeOutline, logoIonic } from "ionicons/icons";`),
       );
     });
   });
