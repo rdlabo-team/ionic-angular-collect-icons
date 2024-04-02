@@ -37,7 +37,7 @@ export const generateUseIcons = async (
           templateAsString,
           sourceFile.getFilePath(),
         );
-        skippedIconsHtmlAll.push(...skippedIconsHtml) ;
+        skippedIconsHtmlAll.push(...skippedIconsHtml);
         ionIconsAll.push(...ionIcons);
       }
     }
@@ -48,7 +48,7 @@ export const generateUseIcons = async (
   if (uniqueSkippedIconsHtmlAll.length > 0) {
     console.warn(
       "[Dev] Cannot generate these icon inputs. Please check these: " +
-      uniqueSkippedIconsHtmlAll.join(", "),
+        uniqueSkippedIconsHtmlAll.join(", "),
     );
   }
 
