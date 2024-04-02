@@ -69,7 +69,11 @@ export const generateUseIcons = async (
   if (useIconFile && uniqueIonIconsAll.length > 0) {
     useIconFile.removeText();
 
-    addExportToFile(useIconFile, uniqueIonIconsAll.map(ionIcon => kebabCaseToCamelCase(ionIcon)), "ionicons/icons");
+    addExportToFile(
+      useIconFile,
+      uniqueIonIconsAll.map((ionIcon) => kebabCaseToCamelCase(ionIcon)),
+      "ionicons/icons",
+    );
     await saveFileChanges(useIconFile, cliOptions);
   }
 };
@@ -269,10 +273,8 @@ function getComponentTemplateAsString(sourceFile: SourceFile) {
     }
 
     // Usage: template: ""
-    const stringLiteral = templatePropertyAssignment
+    return templatePropertyAssignment
       .getDescendantsOfKind(SyntaxKind.StringLiteral)[0]
       ?.getLiteralText();
-
-    return stringLiteral;
   }
 }
