@@ -68,11 +68,8 @@ export const generateUseIcons = async (
 
   if (useIconFile && uniqueIonIconsAll.length > 0) {
     useIconFile.removeText();
-    for (const ionIcon of uniqueIonIconsAll) {
-      const iconName = kebabCaseToCamelCase(ionIcon);
-      addExportToFile(useIconFile, iconName, "ionicons/icons");
-    }
 
+    addExportToFile(useIconFile, uniqueIonIconsAll.map(ionIcon => kebabCaseToCamelCase(ionIcon)), "ionicons/icons");
     await saveFileChanges(useIconFile, cliOptions);
   }
 };
