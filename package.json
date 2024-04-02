@@ -20,12 +20,12 @@
   },
   "devDependencies": {
     "child_process": "^1.0.2",
-    "eslint": "^8.48.0",
+    "eslint": "^8.57.0",
     "np": "^9.2.0",
     "path": "^0.12.7",
-    "prettier": "^3.0.3",
+    "prettier": "^3.2.5",
     "tsconfig": "workspace:*",
-    "turbo": "latest",
+    "turbo": "^1.13.1",
     "write-pkg": "^7.0.0"
   },
   "packageManager": "pnpm@8.6.10"
