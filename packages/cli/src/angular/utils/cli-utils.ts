@@ -23,8 +23,8 @@ export function getOptionsFromArgv(argv: string[]): Partial<CliOptions> {
         argv[i + 1] === undefined || argv[i + 1].startsWith("--")
           ? true
           : ["true", "false"].includes(argv[i + 1])
-          ? argv[i + 1] === "true"
-          : argv[i + 1];
+            ? argv[i + 1] === "true"
+            : argv[i + 1];
       Object.assign(options, {
         [key]: value,
       });
