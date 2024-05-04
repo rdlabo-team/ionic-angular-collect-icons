@@ -103,16 +103,15 @@ async function checkInstalledIonicVersion(dir: string) {
       log.error("Migration canceled.");
     };
 
-    if (majorVersion <= 7) {
-      if (majorVersion < 7) {
-        logVersionError();
-        return false;
-      }
+    if (majorVersion < 7) {
+      logVersionError();
+      return false;
+    }
 
-      if (minorVersion < 5) {
-        logVersionError();
-        return false;
-      }
+    // only need to add if is major v7 then compare with minor 5.
+    if (majorVersion == 7 && minorVersion < 5) {
+      logVersionError();
+      return false;
     }
   }
   return true;
