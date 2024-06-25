@@ -12,7 +12,7 @@ import { saveFileChanges } from "../../utils/log-utils";
 import { addExportToFile } from "../../utils/typescript-utils";
 import { kebabCaseToCamelCase } from "../../utils/string-utils";
 import path from "node:path";
-import iconsData from "ionicons/dist/ionicons.json"
+import iconsData from "ionicons/dist/ionicons.json";
 
 export const generateUseIcons = async (
   project: Project,
@@ -30,10 +30,13 @@ export const generateUseIcons = async (
         htmlAsString,
         sourceFile.getFilePath(),
       );
-      skippedIconsHtmlAll.push(...skippedIconsHtml, ...ionIcons.filter((icon) => !sourceIonIcons.includes(icon)));
-      ionIconsAll.push(...ionIcons.filter((icon) =>
-        sourceIonIcons.includes(icon),
-      ));
+      skippedIconsHtmlAll.push(
+        ...skippedIconsHtml,
+        ...ionIcons.filter((icon) => !sourceIonIcons.includes(icon)),
+      );
+      ionIconsAll.push(
+        ...ionIcons.filter((icon) => sourceIonIcons.includes(icon)),
+      );
     } else if (sourceFile.getFilePath().endsWith(".ts")) {
       const templateAsString = getComponentTemplateAsString(sourceFile);
       if (templateAsString) {
@@ -41,10 +44,13 @@ export const generateUseIcons = async (
           templateAsString,
           sourceFile.getFilePath(),
         );
-        skippedIconsHtmlAll.push(...skippedIconsHtml, ...ionIcons.filter((icon) => !sourceIonIcons.includes(icon)));
-        ionIconsAll.push(...ionIcons.filter((icon) =>
-          sourceIonIcons.includes(icon),
-        ));
+        skippedIconsHtmlAll.push(
+          ...skippedIconsHtml,
+          ...ionIcons.filter((icon) => !sourceIonIcons.includes(icon)),
+        );
+        ionIconsAll.push(
+          ...ionIcons.filter((icon) => sourceIonIcons.includes(icon)),
+        );
       }
     }
   }
