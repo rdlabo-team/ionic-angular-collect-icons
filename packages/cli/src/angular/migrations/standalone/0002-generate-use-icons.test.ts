@@ -28,6 +28,30 @@ describe("migrateComponents", () => {
       );
     });
 
+    it("should exclude out of ionicons", async () => {
+      const component = `
+        import { Component } from "@angular/core";
+
+        @Component({
+          selector: 'my-component',
+          template: '<ion-icon name="logo-ionics"></ion-icon><ion-icon name="close-outline"></ion-icon>',
+          standalone: true
+        })
+        export class MyComponent { }
+      `;
+
+      const useIconFile = await createTestIconFile([
+        {
+          filePath: "foo.component.ts",
+          sourceFileText: dedent(component),
+        },
+      ]);
+
+      expect(dedent(useIconFile.getText())).toBe(
+        dedent(`export { closeOutline } from "ionicons/icons";`),
+      );
+    });
+
     it("should detect and import icons of ios used in the template", async () => {
       const component = `
         import { Component } from "@angular/core";

@@ -10,6 +10,9 @@
     "ts-dedent": "^2.2.0",
     "ts-morph": "^23.0.0"
   },
+  "peerDependencies": {
+    "ionicons": ">= 6.0.0"
+  },
   "bin": "./dist/index.js",
   "files": [
     "dist"
