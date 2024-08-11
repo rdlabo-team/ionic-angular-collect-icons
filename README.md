@@ -179,17 +179,18 @@ export class ExampleComponent {
 
 If you are doing this kind of complex processing, please import manually.
 
-Alternatively, if you have a limited number of icons you're binding to, you can add a block in your template as a "hint." 
+Alternatively, if you have a limited number of icons you're binding to, you can add a block in your template as a "hint."
 
 ```html
 <!-- This is a trick to get ionic-angular-collect-icons
      to include the icons, but it will never render. -->
 @if(false) {
-  <ion-icon name="home"></ion-icon>
-  <ion-icon name="people"></ion-icon>
+<ion-icon name="home"></ion-icon>
+<ion-icon name="people"></ion-icon>
 }
 ```
-It's not ideal, but it will help to maintain the automation. 
+
+It's not ideal, but it will help to maintain the automation.
 
 - Why not addIcons in each component?
 
