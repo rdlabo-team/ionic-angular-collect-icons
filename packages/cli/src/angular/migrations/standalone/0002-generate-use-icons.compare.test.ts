@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import dedent from "ts-dedent";
-import {createTestIconFile} from "./test-helper";
-import {Project} from 'ts-morph';
-import {generateUseIcons} from './0002-generate-use-icons';
-import {cwd} from 'node:process';
+import { createTestIconFile } from "./test-helper";
+import { Project } from "ts-morph";
+import { generateUseIcons } from "./0002-generate-use-icons";
+import { cwd } from "node:process";
 
 describe("migrateComponents", () => {
   describe("compare existing icons", () => {
@@ -22,9 +22,12 @@ describe("migrateComponents", () => {
         }
       `;
 
-      const project = new Project({useInMemoryFileSystem: true});
+      const project = new Project({ useInMemoryFileSystem: true });
       project.createSourceFile("foo.component.ts", dedent(component));
-      project.createSourceFile("use-icons.ts", dedent(`export { closeOutline } from "ionicons/icons";`));
+      project.createSourceFile(
+        "use-icons.ts",
+        dedent(`export { closeOutline } from "ionicons/icons";`),
+      );
 
       const result = await generateUseIcons(project, {
         dryRun: false,
@@ -52,9 +55,14 @@ describe("migrateComponents", () => {
         }
       `;
 
-      const project = new Project({useInMemoryFileSystem: true});
+      const project = new Project({ useInMemoryFileSystem: true });
       project.createSourceFile("foo.component.ts", dedent(component));
-      project.createSourceFile("use-icons.ts", dedent(`export { logoIonic, closeOutline, addCircleOutline } from "ionicons/icons";`));
+      project.createSourceFile(
+        "use-icons.ts",
+        dedent(
+          `export { logoIonic, closeOutline, addCircleOutline } from "ionicons/icons";`,
+        ),
+      );
 
       const result = await generateUseIcons(project, {
         dryRun: false,
@@ -82,9 +90,12 @@ describe("migrateComponents", () => {
         }
       `;
 
-      const project = new Project({useInMemoryFileSystem: true});
+      const project = new Project({ useInMemoryFileSystem: true });
       project.createSourceFile("foo.component.ts", dedent(component));
-      project.createSourceFile("use-icons.ts", dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`));
+      project.createSourceFile(
+        "use-icons.ts",
+        dedent(`export { logoIonic, closeOutline } from "ionicons/icons";`),
+      );
 
       const result = await generateUseIcons(project, {
         dryRun: false,
@@ -112,9 +123,12 @@ describe("migrateComponents", () => {
         }
       `;
 
-      const project = new Project({useInMemoryFileSystem: true});
+      const project = new Project({ useInMemoryFileSystem: true });
       project.createSourceFile("foo.component.ts", dedent(component));
-      project.createSourceFile("use-icons.ts", dedent(`export { closeOutline, logoIonic } from "ionicons/icons";`));
+      project.createSourceFile(
+        "use-icons.ts",
+        dedent(`export { closeOutline, logoIonic } from "ionicons/icons";`),
+      );
 
       const result = await generateUseIcons(project, {
         dryRun: false,
