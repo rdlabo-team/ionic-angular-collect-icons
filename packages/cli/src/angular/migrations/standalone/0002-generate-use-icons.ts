@@ -17,7 +17,7 @@ import iconsData from "ionicons/dist/ionicons.json";
 export const generateUseIcons = async (
   project: Project,
   cliOptions: CliOptions,
-) => {
+): Promise<boolean> => {
   const skippedIconsHtmlAll: string[] = [];
   const ionIconsAll: string[] = [];
   const sourceIonIcons = iconsData.icons.map((icon) => icon.name);
@@ -66,8 +66,26 @@ export const generateUseIcons = async (
 
   const uniqueIonIconsAll = Array.from(new Set(ionIconsAll));
   uniqueIonIconsAll.sort();
+  const uniqueIconCamelCase = uniqueIonIconsAll.map((ionIcon) => kebabCaseToCamelCase(ionIcon));
 
   let useIconFile = project.getSourceFile("use-icons.ts");
+
+  if (useIconFile) {
+    const iconFile = useIconFile.getFirstDescendantByKind(SyntaxKind.ExportDeclaration);
+    const namedExports = iconFile?.getNamedExports();
+    const exportItems = namedExports?.map(namedExport => namedExport.getName());
+    if (exportItems && exportItems.length === uniqueIconCamelCase.length) {
+      /**
+       * If the number of exported icons is the same as the number of source icons
+       */
+      const newIcons = uniqueIconCamelCase.filter(icon => !exportItems.includes(icon));
+      if (newIcons.length === 0) {
+        console.info(`[Dev] No new icons to add or change to use-icons.ts`);
+        return false;
+      }
+    }
+  }
+
   if (!useIconFile) {
     useIconFile = project.createSourceFile(
       path.resolve(cliOptions.projectPath, cliOptions.iconPath),
@@ -78,16 +96,18 @@ export const generateUseIcons = async (
     );
   }
 
-  if (useIconFile && uniqueIonIconsAll.length > 0) {
+  if (useIconFile && uniqueIconCamelCase.length > 0) {
     useIconFile.removeText();
 
     addExportToFile(
       useIconFile,
-      uniqueIonIconsAll.map((ionIcon) => kebabCaseToCamelCase(ionIcon)),
+      uniqueIconCamelCase,
       "ionicons/icons",
     );
     await saveFileChanges(useIconFile, cliOptions);
+    return true;
   }
+  return false;
 };
 
 function detectIonicComponentsAndIcons(htmlAsString: string, filePath: string) {
