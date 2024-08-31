@@ -66,19 +66,27 @@ export const generateUseIcons = async (
 
   const uniqueIonIconsAll = Array.from(new Set(ionIconsAll));
   uniqueIonIconsAll.sort();
-  const uniqueIconCamelCase = uniqueIonIconsAll.map((ionIcon) => kebabCaseToCamelCase(ionIcon));
+  const uniqueIconCamelCase = uniqueIonIconsAll.map((ionIcon) =>
+    kebabCaseToCamelCase(ionIcon),
+  );
 
   let useIconFile = project.getSourceFile("use-icons.ts");
 
   if (useIconFile) {
-    const iconFile = useIconFile.getFirstDescendantByKind(SyntaxKind.ExportDeclaration);
+    const iconFile = useIconFile.getFirstDescendantByKind(
+      SyntaxKind.ExportDeclaration,
+    );
     const namedExports = iconFile?.getNamedExports();
-    const exportItems = namedExports?.map(namedExport => namedExport.getName());
+    const exportItems = namedExports?.map((namedExport) =>
+      namedExport.getName(),
+    );
     if (exportItems && exportItems.length === uniqueIconCamelCase.length) {
       /**
        * If the number of exported icons is the same as the number of source icons
        */
-      const newIcons = uniqueIconCamelCase.filter(icon => !exportItems.includes(icon));
+      const newIcons = uniqueIconCamelCase.filter(
+        (icon) => !exportItems.includes(icon),
+      );
       if (newIcons.length === 0) {
         console.info(`[Dev] No new icons to add or change to use-icons.ts`);
         return false;
@@ -99,11 +107,7 @@ export const generateUseIcons = async (
   if (useIconFile && uniqueIconCamelCase.length > 0) {
     useIconFile.removeText();
 
-    addExportToFile(
-      useIconFile,
-      uniqueIconCamelCase,
-      "ionicons/icons",
-    );
+    addExportToFile(useIconFile, uniqueIconCamelCase, "ionicons/icons");
     await saveFileChanges(useIconFile, cliOptions);
     return true;
   }
