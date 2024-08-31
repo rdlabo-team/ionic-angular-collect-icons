@@ -36,7 +36,7 @@ importers:
   packages/cli:
     dependencies:
       '@angular-eslint/template-parser':
-        specifier: ^18.0.1
+        specifier: ^18.0.0
         version: 18.0.1(eslint@8.57.0)(typescript@4.9.5)
       '@clack/core':
         specifier: ^0.3.4
