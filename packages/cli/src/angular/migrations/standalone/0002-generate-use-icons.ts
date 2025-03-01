@@ -23,6 +23,10 @@ export const generateUseIcons = async (
   const sourceIonIcons = iconsData.icons.map((icon) => icon.name);
 
   for (const sourceFile of project.getSourceFiles()) {
+    if (sourceFile.getFilePath().includes('node_modules')) {
+      continue;
+    }
+
     if (sourceFile.getFilePath().endsWith(".html")) {
       const htmlAsString = sourceFile.getFullText();
 
