@@ -130,7 +130,7 @@ function detectIonicComponentsAndIcons(htmlAsString: string, filePath: string) {
   let hasRouterLink = false;
 
   const recursivelyFindIonicComponents = (node: any) => {
-    if (node.type === "Element$1" || node.type === "Template") {
+    if (node.type === "Element$1" || node.type === "Element" || node.type === "Template") {
       const tagName = node.type === "Template" ? node.tagName : node.name;
 
       if (IONIC_COMPONENTS.includes(tagName)) {
