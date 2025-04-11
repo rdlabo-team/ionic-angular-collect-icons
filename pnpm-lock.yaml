@@ -36,8 +36,8 @@ importers:
   packages/cli:
     dependencies:
       '@angular-eslint/template-parser':
-        specifier: ^19.0.0
-        version: 19.1.0(eslint@8.57.0)(typescript@4.9.5)
+        specifier: ^19.2.0
+        version: 19.3.0(eslint@8.57.0)(typescript@4.9.5)
       '@clack/core':
         specifier: ^0.4.0
         version: 0.4.1
@@ -107,17 +107,17 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
 
-  /@angular-eslint/bundled-angular-compiler@19.1.0:
-    resolution: {integrity: sha512-HUJyukRvnh8Z9lIdxdblBRuBaPYEVv4iAYZMw3d+dn4rrM27Nt5oh3/zkwYrrPkt36tZdeXdDWrOuz9jgjVN5w==}
+  /@angular-eslint/bundled-angular-compiler@19.3.0:
+    resolution: {integrity: sha512-63Zci4pvnUR1iSkikFlNbShF1tO5HOarYd8fvNfmOZwFfZ/1T3j3bCy9YbE+aM5SYrWqPaPP/OcwZ3wJ8WNvqA==}
     dev: false
 
-  /@angular-eslint/template-parser@19.1.0(eslint@8.57.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-wbMi7adlC+uYqZo7NHNBShpNhFJRZsXLqihqvFpAUt1Ei6uDX8HR6MyMEDZ9tUnlqtPVW5nmbedPyLVG7HkjAA==}
+  /@angular-eslint/template-parser@19.3.0(eslint@8.57.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-VxMNgsHXMWbbmZeBuBX5i8pzsSSEaoACVpaE+j8Muk60Am4Mxc0PytJm4n3znBSvI3B7Kq2+vStSRYPkOER4lA==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '*'
     dependencies:
-      '@angular-eslint/bundled-angular-compiler': 19.1.0
+      '@angular-eslint/bundled-angular-compiler': 19.3.0
       eslint: 8.57.0
       eslint-scope: 8.2.0
       typescript: 4.9.5
