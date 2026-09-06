@@ -6,7 +6,7 @@ Yes. Please check this issue: https://github.com/ionic-team/ionic-framework/issu
 
 - Support Unit Test?
 
-Unit test at ChromeHeadless don't read `main.ts`. So, you need to add `addIcons` in each test, or add `addIcons` in `src/test.ts`.
+When the test runner does not execute `main.ts`, call `addIcons` from the test setup file or from individual tests. For Karma-style projects that still use `src/test.ts`, register icons there; for Vitest or other runners, use that runner's setup file.
 
 - Support binding icon name?
 

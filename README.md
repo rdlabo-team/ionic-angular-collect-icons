@@ -7,18 +7,11 @@
 
 <!-- /rdlabo-docs-omit -->
 
-## What is this?
+Collect `ion-icon` names from templates and generate a production `addIcons` registration. Development can register all icons; production builds only the icons found in templates.
 
-This library is used to uniquely group the ionIcons in a project, and generate for export ionIcons file. In small projects, it is difficult to manage `addIcons()` of ionIcons each time, so we automated it.
+This project is based on [ionic-team/ionic-angular-standalone-codemods](https://github.com/ionic-team/ionic-angular-standalone-codemods).
 
-- development: Stress-free development by add all icons at `addIcons`.
-- Production: Automatically collect and update the ionIcon used in the template prior to build.
-
-Of course, to maximize bundle size reduction, it is important to load a minimum number of icons at each Component lazy loading. This is a compromise to speed up development.
-
-This project is based [ionic-team/ionic-angular-standalone-codemods](https://github.com/ionic-team/ionic-angular-standalone-codemods) .
-
-## Requirements
+## Supported versions
 
 - Node.js >= 22
 - Ionic Angular >= 9.0.0
@@ -26,29 +19,6 @@ This project is based [ionic-team/ionic-angular-standalone-codemods](https://git
 - TypeScript >= 5.4.0
 - ionicons >= 8.0.0
 - @angular-eslint/template-parser 21 or 22
-
-## Quick start
-
-After [Installation](#installation), initialize `addIcons` and collect icons before production builds:
-
-```bash
-npx @rdlabo/ionic-angular-collect-icons --initialize true
-```
-
-Details: [Initialize](./docs/initialize.md) and [Usage](./docs/usage.md).
-
-## Migrating from Ionic Angular 8
-
-Commit the consuming application's current changes, then run Ionic's official
-migration tool from the application root:
-
-```bash
-npx @ionic/migrate
-```
-
-It applies safe automatic changes and reports items that require manual review.
-After it finishes, update this package and follow the
-[Ionic Angular 9 migration guide](./docs/migration.md) for the remaining checks.
 
 ## Installation
 
@@ -58,19 +28,33 @@ npm install --save-dev \
   @angular-eslint/template-parser@^21
 ```
 
-Use `@angular-eslint/template-parser@^22` instead when the consuming project
-uses Angular ESLint 22. The parser is a peer dependency so the collector uses
-the same Angular template parser major as the consuming project.
+Use `@angular-eslint/template-parser@^22` instead when the consuming project uses Angular ESLint 22. The parser is a peer dependency so the collector uses the same Angular template parser major as the consuming project.
+
+## Initialize
+
+Wire `addIcons` and generate `src/use-icons.ts`:
+
+```bash
+npx @rdlabo/ionic-angular-collect-icons --initialize true
+```
+
+Confirm that `src/use-icons.ts` exists and that `main.ts` (or `app.config.ts`) registers production icons from that file and development icons from `ionicons/icons`. Manual wiring steps are on [Initialize](./docs/initialize.md).
+
+## Build confirmation
+
+1. Add one static icon to a template, for example `<ion-icon name="home"></ion-icon>`.
+2. Run `npx @rdlabo/ionic-angular-collect-icons` and confirm the matching export appears in `src/use-icons.ts`.
+3. Run `npm run build`.
+
+Automate the collector with `prebuild` as shown in [Usage](./docs/usage.md). Dynamic `[name]` bindings are not collected — register those icons manually ([FAQ](./docs/faq.md)).
 
 ## Documentation
 
-Start with [Installation](#installation), then [Initialize](./docs/initialize.md) and [Usage](./docs/usage.md).
-
-- [Initialize](./docs/initialize.md) — wire `addIcons` automatically or by hand.
+- [Initialize](./docs/initialize.md) — automatic or manual `addIcons` wiring.
 - [Usage](./docs/usage.md) — run the collector before production builds.
-- [Migration](./docs/migration.md) — migrate an existing project to Ionic Angular 9.
 - [CLI Options](./docs/options.md) — `--dry-run`, `--initialize`, paths.
 - [FAQ](./docs/faq.md) — tests, binding, and `main.ts`.
+- [Migration](./docs/migration.md) — Ionic Angular 8 → 9 checks for existing apps.
 
 <!-- rdlabo-docs-omit -->
 

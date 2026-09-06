@@ -1,16 +1,14 @@
-Install the CLI and wire `addIcons`. See also [Usage](./usage.md).
+Wire `addIcons` after [Installation](../README.md#installation). See also [Usage](./usage.md).
 
-```bash
-npm install @rdlabo/ionic-angular-collect-icons --save-dev
-```
-
-### 🤖 Automatic Configuration
+### Automatic configuration
 
 ```bash
 npx @rdlabo/ionic-angular-collect-icons --initialize true
 ```
 
-### 📝 Manual Configuration
+Expect `src/use-icons.ts` plus an `addIcons` registration in `main.ts` / `app.config.ts`.
+
+### Manual configuration
 
 #### 1. Run the CLI
 
