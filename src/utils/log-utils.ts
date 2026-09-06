@@ -3,6 +3,10 @@ import type { CliOptions } from "../types/cli-options";
 
 import { log } from "@clack/prompts";
 
+interface SaveFileChangesOptions {
+  format?: boolean;
+}
+
 /**
  * Saves the changes to a source file. If the `dryRun` option is set, the changes will be logged to the console instead.
  * @param sourceFile The source file to save.
@@ -12,8 +16,11 @@ import { log } from "@clack/prompts";
 export async function saveFileChanges(
   sourceFile: SourceFile,
   cliOptions: CliOptions,
+  options: SaveFileChangesOptions = {},
 ): Promise<string> {
-  sourceFile.formatText();
+  if (options.format !== false) {
+    sourceFile.formatText();
+  }
   if (cliOptions.dryRun) {
     log.info("[Dry Run] Writing changes to: " + sourceFile.getFilePath());
     log.info(sourceFile.getFullText());

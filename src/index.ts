@@ -94,6 +94,15 @@ async function main() {
       cliOptions: cli,
       dir: cli.projectPath,
       spinner: s,
+      confirmInitializerMigration:
+        TERMINAL_INFO.tty && !TERMINAL_INFO.ci
+          ? async () =>
+              (await confirm({
+                message:
+                  "A legacy generated Ionicons initializer was found. Migrate it now?",
+                initialValue: true,
+              })) === true
+          : undefined,
     });
   } catch (e: any) {
     s.stop("An error occurred during the migration.", 1);

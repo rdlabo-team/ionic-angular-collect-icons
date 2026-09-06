@@ -38,7 +38,7 @@ Wire `addIcons` and generate `src/use-icons.ts`:
 npx @rdlabo/ionic-angular-collect-icons --initialize true
 ```
 
-Confirm that `src/use-icons.ts` exists and that `main.ts` (or `app.config.ts`) registers production icons from that file and development icons from `ionicons/icons`. Manual wiring steps are on [Initialize](./docs/initialize.md).
+Confirm that `src/use-icons.ts` exists and that `main.ts` (or `app.config.ts`) registers production icons from that file and development icons from `ionicons/icons`. Manual wiring steps are on [Initialize](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/initialize).
 
 ## Build confirmation
 
@@ -46,19 +46,35 @@ Confirm that `src/use-icons.ts` exists and that `main.ts` (or `app.config.ts`) r
 2. Run `npx @rdlabo/ionic-angular-collect-icons` and confirm the matching export appears in `src/use-icons.ts`.
 3. Run `npm run build`.
 
-Automate the collector with `prebuild` as shown in [Usage](./docs/usage.md). Dynamic `[name]` bindings are not collected — register those icons manually ([FAQ](./docs/faq.md)).
+Automate the collector with `prebuild` as shown in [Usage](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/usage). Dynamic `[name]` bindings are not collected — register those icons manually ([FAQ](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/faq)).
 
 ## Documentation
 
-- [Initialize](./docs/initialize.md) — automatic or manual `addIcons` wiring.
-- [Usage](./docs/usage.md) — run the collector before production builds.
-- [CLI Options](./docs/options.md) — `--dry-run`, `--initialize`, paths.
-- [FAQ](./docs/faq.md) — tests, binding, and `main.ts`.
-- [Migration](./docs/migration.md) — Ionic Angular 8 → 9 checks for existing apps.
+- [Initialize](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/initialize) — automatic or manual `addIcons` wiring.
+- [Usage](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/usage) — run the collector before production builds.
+- [CLI Options](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/options) — `--dry-run`, `--initialize`, paths.
+- [FAQ](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/faq) — tests, binding, and `main.ts`.
+- [Migration](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/migration) — Ionic Angular 8 → 9 checks for existing apps.
 
 <!-- rdlabo-docs-omit -->
 
 **Full documentation:** [https://docs.rdlabo.dev/projects/ionic-angular-collect-icons](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons)
+
+## Prerelease channels
+
+An open, non-draft pull request can be published to the npm `beta` dist-tag after its `CI`, `Lint`, `Package Candidate` workflows pass. A repository owner or maintainer must add a comment whose entire body is:
+
+```text
+/beta
+```
+
+The request authorizes only the pull request head SHA that existed when the comment was added. The workflow revalidates the owner or maintainer permission and head SHA immediately before publishing. Any new commit requires CI to pass again and a fresh owner or maintainer `/beta` comment. Fork pull requests are supported. Pull requests that change a release-gating workflow cannot be beta-published until those workflow changes land on `main`.
+
+Beta versions use `<base>-beta.pr<PR number>.sha<12-character SHA>`. The candidate is built in a read-only workflow without npm publishing credentials. The privileged release workflow publishes only the validated immutable package artifact with lifecycle scripts disabled. A notification failure cannot invalidate a successful npm publish.
+
+When a pull request is merged into `main`, it is automatically published to `beta` only after the required CI and `Package Candidate` succeed for that exact merge commit. Direct pushes to `main` do not publish a candidate.
+
+Only `npm run release` creates a release tag. Stable `vX.Y.Z` tags publish to npm `latest`; revision/prerelease tags publish to `next`. Neither `beta` nor `next` publishing changes the npm `latest` dist-tag.
 
 ## Maintainers
 

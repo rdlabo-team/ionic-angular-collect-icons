@@ -24,7 +24,42 @@ interface StandaloneMigrationOptions {
    * The spinner instance for logging progress.
    */
   spinner: ReturnType<typeof spinner>;
+  /** Ask an interactive user before migrating a legacy initializer. */
+  confirmInitializerMigration?: () => Promise<boolean>;
 }
+
+interface InitializerMigrationOptions {
+  project: Project;
+  cliOptions: CliOptions;
+  confirmInitializerMigration?: () => Promise<boolean>;
+}
+
+export const migrateInitializerWithConsent = async ({
+  project,
+  cliOptions,
+  confirmInitializerMigration,
+}: InitializerMigrationOptions) => {
+  const initializerResult = await initializeAddIcons(project, cliOptions);
+  if (initializerResult !== "permission-required") {
+    return initializerResult;
+  }
+
+  if (!confirmInitializerMigration) {
+    log.warn(
+      "A legacy Ionicons initializer was detected but cannot be changed without confirmation in this non-interactive environment.",
+    );
+    log.info("Use --migrate true to approve recognized migrations explicitly.");
+    return initializerResult;
+  }
+
+  const approved = await confirmInitializerMigration();
+  if (!approved) {
+    log.info("The legacy Ionicons initializer was left unchanged.");
+    return "declined" as const;
+  }
+
+  return initializeAddIcons(project, { ...cliOptions, migrate: true });
+};
 
 export const isSupportedIonicVersion = (version: string): boolean => {
   const match = /^(0|[1-9]\d*)\./.exec(version);
@@ -36,17 +71,25 @@ export const runStandaloneMigration = async ({
   cliOptions,
   dir,
   spinner,
+  confirmInitializerMigration,
 }: StandaloneMigrationOptions) => {
   const hasIonicAngularMinVersion = await checkInstalledIonicVersion(dir);
   if (!hasIonicAngularMinVersion) {
     return false;
   }
 
-  spinner.start(`Migrating project located at: ${dir}`);
+  const initializerResult = await migrateInitializerWithConsent({
+    project,
+    cliOptions,
+    confirmInitializerMigration,
+  });
 
-  if (cliOptions.initialize) {
+  spinner.start(`Migrating project located at: ${dir}`);
+  const initializerWasProtected =
+    initializerResult === "declined" ||
+    initializerResult === "permission-required";
+  if (cliOptions.initialize && !initializerWasProtected) {
     // remove addIcons method from component constructor
-    await initializeAddIcons(project, cliOptions);
     await removeAddIcons(project, cliOptions);
   }
   // Migrate components using Ionic components

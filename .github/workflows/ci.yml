@@ -7,9 +7,7 @@ on:
   pull_request:
 
 permissions:
-  contents: write
-  pull-requests: write
-  packages: write
+  contents: read
 
 # Automatically cancel in-progress actions on the same branch
 concurrency:

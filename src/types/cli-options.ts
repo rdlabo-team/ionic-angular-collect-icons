@@ -10,6 +10,12 @@ export interface CliOptions {
   initialize: boolean;
 
   /**
+   * Explicitly approve or decline recognized source migrations.
+   * If omitted, the CLI asks for each migration in an interactive terminal.
+   */
+  migrate?: boolean;
+
+  /**
    * The path to the project.
    */
   projectPath: string;

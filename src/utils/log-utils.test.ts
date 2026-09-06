@@ -29,4 +29,17 @@ describe("saveFileChanges", () => {
     expect(sourceFile.save).toHaveBeenCalled();
     expect(result).toBe("foo");
   });
+
+  it("can preserve surrounding formatting", async () => {
+    const sourceFile: any = {
+      save: vi.fn(),
+      getFullText: () => "foo",
+      formatText: vi.fn(),
+    };
+
+    await saveFileChanges(sourceFile, { dryRun: false }, { format: false });
+
+    expect(sourceFile.formatText).not.toHaveBeenCalled();
+    expect(sourceFile.save).toHaveBeenCalled();
+  });
 });

@@ -19,21 +19,24 @@ npx @rdlabo/ionic-angular-collect-icons --interactive true
 
 ### --initialize [boolean]
 
-If you want to initialize `addIcons` automatically, you can use the `--initialize` flag. The default is `false`. The CLI add lines:
+If you want to initialize icon registration automatically, you can use the `--initialize` flag. The default is `false`. The CLI adds these lines:
 
 ```diff
-+ import { addIcons } from 'ionicons';
-+ import * as allIcons from 'ionicons/icons';
++ import { initializeIonicons } from '@rdlabo/ionic-angular-collect-icons/runtime';
 + import * as useIcons from './use-icons';
 
   if (environment.production) {
     enableProdMode();
   }
 
-+  addIcons(environment.production ? useIcons : allIcons);
++  void initializeIonicons(useIcons);
 ```
 
 the CLI will add lines at the file that has `enableProdMode()`. Of course, it can also be set manually.
+
+`--initialize` is only required when adding the initializer to a project that
+does not have one. Migration of an existing initializer requires a separate
+confirmation.
 
 And remove other `addIcons` calls in class constructor.
 
@@ -49,6 +52,27 @@ And remove other `addIcons` calls in class constructor.
 ```bash
 npx @rdlabo/ionic-angular-collect-icons --initialize true
 ```
+
+### --migrate [boolean]
+
+In an interactive terminal, the collector asks before applying each recognized
+source migration. **Yes** is selected by default; **No** leaves that migration's
+target unchanged.
+
+Use this option to answer explicitly, such as in CI or another non-interactive
+environment:
+
+```bash
+npx @rdlabo/ionic-angular-collect-icons --migrate true
+```
+
+Preview the generated diff without writing files:
+
+```bash
+npx @rdlabo/ionic-angular-collect-icons --migrate true --dry-run true
+```
+
+The option is unset by default so an interactive run can ask for confirmation.
 
 ### --project-path [string]
 
