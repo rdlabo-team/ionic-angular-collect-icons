@@ -206,7 +206,7 @@ npx @rdlabo/ionic-angular-collect-icons --initialize true
 ```
 
 Continue running the collector before production builds as described in the
-[usage guide](./usage.md).
+[usage guide](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/usage).
 
 ### Review other Ionic 9 changes
 

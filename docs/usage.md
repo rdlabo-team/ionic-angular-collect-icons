@@ -1,4 +1,4 @@
-Run the collector before production builds. Call this after [Initialize](./initialize.md).
+Run the collector before production builds. Call this after [Initialize](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/initialize).
 
 ```bash
 npx @rdlabo/ionic-angular-collect-icons
@@ -25,4 +25,4 @@ Put the collector in an npm script so production builds refresh `src/use-icons.t
 2. Run the collector and confirm the matching export in `src/use-icons.ts`.
 3. Run `npm run build`.
 
-Dynamic `[name]` bindings are not collected. Register those icons manually, or see the binding notes in [FAQ](./faq.md).
+Dynamic `[name]` bindings are not collected. Register those icons manually, or see the binding notes in [FAQ](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/faq).

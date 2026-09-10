@@ -1,4 +1,4 @@
-Wire `addIcons` after [Installation](../README.md#installation). See also [Usage](./usage.md).
+Wire `addIcons` after [Installation](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/readme#installation). See also [Usage](https://docs.rdlabo.dev/projects/ionic-angular-collect-icons/docs/usage).
 
 Build environments must install development dependencies: the generated code imports this package’s runtime, which is bundled into the application.
 
